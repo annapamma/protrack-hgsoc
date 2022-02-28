@@ -24,12 +24,19 @@
           Click any track element on heatmap to enable sorting
       </div>
 
-    <v-switch
-      v-model="heatmapLockTracks"
-      label="Lock tracks"
-    ></v-switch>
+    <div class="lock-tracks-switch">
+        <v-switch
+        v-model="heatmapLockTracks"
+        label='Lock tracks'
+        >
+        </v-switch>
+        <heatmap-lock-tracks-annotation />
+    </div>
+
     <div v-if="heatmapLockTracks && lockTracks.length > 0">
-        <div>Locking by: </div>
+        <div>
+            <span>Locking by:</span>
+        </div>
         <draggable v-model="lockTracks" @start="drag=true" @end="drag=false">
             <div class="lock-element" v-for="track of lockTracks" :key="track">
                 <div class="lock-element-content">
@@ -64,10 +71,12 @@
 
 <script>
 import draggable from 'vuedraggable'
+import HeatmapLockTracksAnnotation from './HeatmapLockTracksAnnotation.vue'
 
 export default {
     components: {
         draggable,
+        HeatmapLockTracksAnnotation,
     },
     name: "sort-by-track",
 
@@ -122,6 +131,9 @@ export default {
             const res = this.lockTracks.filter(el => el !== track) 
             this.lockTracks = res
         },
+        openLockTrackHelpModal() {
+            console.log('opening')
+        },
         addTrack() { 
             this.lockTracks.push(this.selectTrack) 
         },
@@ -162,5 +174,10 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.lock-tracks-switch {
+    display: flex;
+    flex-direction: row;
 }
 </style>
