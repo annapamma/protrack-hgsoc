@@ -39,6 +39,7 @@ export default new Vuex.Store({
     boxplotGene: null,
     boxplotGenes: null,
     boxplotDataType: 'proteo',
+    boxplotDataTypes: ['proteo', 'RNA', 'phospho', 'cnv'],
     boxplotView: 'byGene',
     Boxplot_k_gene_v_tracks: null,
     Boxplot_k_track_v_data: null,

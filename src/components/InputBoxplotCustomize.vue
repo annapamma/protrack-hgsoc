@@ -65,11 +65,11 @@ export default {
         get() { return this.$store.state.boxplotView },
         set(boxplotView) { this.$store.dispatch('setBoxplotView', { boxplotView })},
       },
+      dataTypes() { return this.$store.state.boxplotDataTypes },
       trackDetails() { return Object.keys(this.$store.state.trackDetails) },
     },
     
     data: () => ({
-      dataTypes: ['proteo', 'RNA', 'phospho'],
       boxplotViews: [
         {
           value: 'byGene', 

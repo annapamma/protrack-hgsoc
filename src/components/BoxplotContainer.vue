@@ -21,15 +21,12 @@ export default {
     computed: {
         boxplotGene() { return this.$store.state.boxplotGene },
         boxplotDataType() { return this.$store.state.boxplotDataType },
+        boxplotDataTypes() { return this.$store.state.boxplotDataTypes },
         boxplotView() { return this.$store.state.boxplotView },
         k_gene_v_tracks() { return this.$store.state[`${this.view}_k_gene_v_tracks`] },
         k_dataType_v_tracks() { 
           if (!this.k_gene_v_tracks) { return null }
-          let dataTypes = {
-            'proteo': [],
-            'RNA': [],
-            'phospho': [],
-          }
+          let dataTypes = Object.fromEntries(this.boxplotDataTypes.map(dt => [dt, []]))
           Object.keys(dataTypes).forEach((dataType) => {
             Object.entries(this.k_gene_v_tracks).forEach(([, tracks]) => {
               tracks.forEach((track) => {
