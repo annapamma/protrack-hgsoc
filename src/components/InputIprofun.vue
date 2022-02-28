@@ -73,6 +73,10 @@ export default {
         )
       },
     },
+
+    mounted() {
+      this.submitIprofunGene()
+    }
 }
 </script>
 
