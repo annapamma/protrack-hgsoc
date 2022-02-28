@@ -32,7 +32,7 @@
       ></v-select>
 
       <v-select
-        :items="trackDetails"
+        :items="trackDetailsWithNone"
         label="Stratify the Boxplots according to:"
         v-model="boxplotCategory"
       ></v-select>
@@ -46,7 +46,13 @@ export default {
     computed: {
       boxplotCategory: {
         get() { return this.$store.state.boxplotCategory },
-        set(boxplotCategory) { this.$store.dispatch('setBoxplotCategory', { boxplotCategory }) }
+        set(boxplotCategory) { 
+          if (boxplotCategory === 'None') {
+            this.$store.dispatch('setBoxplotCategory', { boxplotCategory: this.boxplotCategory2 }) 
+          } else {
+            this.$store.dispatch('setBoxplotCategory', { boxplotCategory }) 
+          }
+        }
       },
       boxplotCategory2: {
         get() { return this.$store.state.boxplotCategory2 },
@@ -67,6 +73,7 @@ export default {
       },
       dataTypes() { return this.$store.state.boxplotDataTypes },
       trackDetails() { return Object.keys(this.$store.state.trackDetails) },
+      trackDetailsWithNone() { return ['None', ...Object.keys(this.$store.state.trackDetails)] },
     },
     
     data: () => ({
