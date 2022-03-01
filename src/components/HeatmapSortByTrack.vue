@@ -4,6 +4,15 @@
       <div v-for="[k, v] in selectedData" :key="k">
           <b>{{k}}</b>: {{ v }}
       </div>
+        <div v-if="gene && !heatmapTracks.includes(selectedSeries)">
+            <b>Gene: </b>{{ gene }}
+            <a :href="`https://savagesr.shinyapps.io/ov_ptrc_human_tumor/?selectGene=${gene}`" target="_blank">
+                <img
+                    src="../assets/images/box_plot.png"
+                    height="35" width="35"
+                >
+            </a>
+        </div>
       <div class="sort-buttons-container" v-if="selectedSeries">
           <div><b>Sort by {{ selectedSeries }}:</b></div>
           <div class="sort-buttons">
@@ -71,6 +80,7 @@
 
 <script>
 import draggable from 'vuedraggable'
+import trackDetails from '../refs/trackDetails'
 import HeatmapLockTracksAnnotation from './HeatmapLockTracksAnnotation.vue'
 
 export default {
@@ -85,6 +95,7 @@ export default {
             get() { return this.$store.state.heatmapLockTracks },
             set(heatmapLockTracks) { this.$store.dispatch('setHeatmapLockTracks', { heatmapLockTracks }) },
         },
+        gene() { return this.selectedSeries ? this.selectedSeries.split(' ')[0] : null },
         selectedSample() { return this.$store.state.selectedSample },
         selectedSeries() { return this.$store.state.selectedSeries },
         selectedValue() { return this.$store.state.selectedValue },
@@ -93,7 +104,7 @@ export default {
             ['Selected sample', this.selectedSample],
             ['Selected value', this.selectedValue],
         ] },
-        heatmapTracks() { return Object.keys(this.$store.state.trackDetails) }
+        heatmapTracks() { return Object.keys(this.$store.state.trackDetails) },
     },
 
     data: () => ({
