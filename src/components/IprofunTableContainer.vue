@@ -1,32 +1,42 @@
 <template>
     <div class="iprofun-table-container">
-            <div>
-              <b style="margin-right: 3px;">{{ predictorLabels[predictor] }}</b>
-              <v-tooltip 
-                content-class='custom-tooltip'
-                bottom 
-                color="#263238"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-icon
-                  color="#546E7A"
-                  dark
-                  v-bind="attrs"
-                  v-on="on"
-                  small
-                  >
-                  mdi-help-circle
-                  </v-icon>
-                </template>
-                <span> {{ predictorLabelsDescription[predictor] }}</span>
-              </v-tooltip>
-            </div>
-            <iprofun-table v-if="iprofunRegression[predictor]" :predictor="predictor"/>
-            <div v-else style="margin-left: 10px;">{{ predictor }} data not found</div>
+      <v-expansion-panels focusable v-model="panel" multiple>
+        <v-expansion-panel>
+          <v-expansion-panel-header>
+              <div>
+                <b style="margin-right: 3px;">{{ predictorLabels[predictor] }}</b>
+                <v-tooltip 
+                  content-class='custom-tooltip'
+                  bottom 
+                  color="#263238"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                    color="#546E7A"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    >
+                    mdi-help-circle
+                    </v-icon>
+                  </template>
+                  <span> {{ predictorLabelsDescription[predictor] }}</span>
+                </v-tooltip>
+              </div>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content >
+              <div class="iprofun-panel-content">
+                <iprofun-table v-if="iprofunRegression[predictor]" :predictor="predictor"/>
+                <div v-else style="margin-left: 10px;">{{ predictor }} data not found</div>
 
-            <div class="iprofun" v-for="(isGenerated, iprofunFigure) in iprofunFigureGenerated" :key="iprofunFigure">
-                <img width="450" v-if="isGenerated && iprofunFigure.toUpperCase().indexOf(predictor.toUpperCase()) > -1" :src="`https://calina01.u.hpc.mssm.edu/protrack/${iprofunFigure}/${IprofunGene}`" />
-            </div>
+                <div class="iprofun" v-for="(isGenerated, iprofunFigure) in iprofunFigureGenerated" :key="iprofunFigure">
+                    <img width="450" v-if="isGenerated && iprofunFigure.toUpperCase().indexOf(predictor.toUpperCase()) > -1" :src="`https://calina01.u.hpc.mssm.edu/protrack/${iprofunFigure}/${IprofunGene}`" />
+                </div>
+              </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels> 
     </div>
 </template>
 
@@ -37,6 +47,8 @@ export default {
   props: ['predictor'],
   data() {
     return {
+      panel: [0, 1, 2], 
+
       predictorLabels: {
         Mutation: 'Mutation',
         CNV: 'CNV-Dosage',
@@ -69,9 +81,8 @@ export default {
 
 <style scoped>
     .iprofun-table-container {
-        width: 80%;
+        width: 98%;
         /* min-width: 1200px; */
-        /* border-left: solid 1px lightgray; */
         margin-left: 10px;
         margin-top: 20px;
     }
