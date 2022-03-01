@@ -5,6 +5,7 @@ export default function scatterplot({
   trackData,
   trackDetails,
   category,
+  width,
 }) {
     const Plotly = window.Plotly
     let data = []
@@ -68,6 +69,7 @@ export default function scatterplot({
         title: {text: category},
       },
       height: 400,
+      width,
       title: `${track}<br>pearson correlation: ${trackData.correlation}`,
     }
 

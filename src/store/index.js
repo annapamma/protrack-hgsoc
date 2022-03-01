@@ -71,6 +71,7 @@ export default new Vuex.Store({
     scatterplotGenes: null,
     scatterplotTracks: {},
     scatterplotTracksShown: null,
+    scatterplotWidth: 600,
     Scatterplot_k_gene_v_tracks: null,
     Scatterplot_k_track_v_data: null,
     selectedGroup: '',
@@ -115,6 +116,7 @@ export default new Vuex.Store({
     SET_SCATTERPLOT_GENES(state, { scatterplotGenes }) { state.scatterplotGenes = scatterplotGenes },
     SET_SCATTERPLOT_TRACKS(state, { scatterplotTracks }) { state.scatterplotTracks = scatterplotTracks },
     SET_SCATTERPLOT_TRACKS_SHOWN(state, { scatterplotTracksShown }) { state.scatterplotTracksShown = scatterplotTracksShown },
+    SET_SCATTERPLOT_WIDTH(state, { scatterplotWidth }) { state.scatterplotWidth = scatterplotWidth },
     SET_SHOW_TEXT(state, { showText }) { state.showText = showText },
     SET_VIEW(state, { view }) { state.view = view },
     UPDATE_SAMPLES(state, { sampleOrder }) { state.sampleOrder = sampleOrder }, 
@@ -195,6 +197,7 @@ export default new Vuex.Store({
     setHeatmapShownDataTypes(store, { heatmapShownDataTypes }) { store.commit('SET_HEATMAP_SHOWN_DATA_TYPES', { heatmapShownDataTypes }) },
     setScatterplotCategory(store, { scatterplotCategory }) { store.commit('SET_SCATTERPLOT_CATEGORY', { scatterplotCategory })},
     setScatterplotTracksShown(store, { scatterplotTracksShown }) { store.commit('SET_SCATTERPLOT_TRACKS_SHOWN', { scatterplotTracksShown }) },
+    setScatterplotWidth(store, { scatterplotWidth }) { store.commit('SET_SCATTERPLOT_WIDTH', { scatterplotWidth }) },
     setShowText(store, { showText }) { store.commit('SET_SHOW_TEXT', { showText }) },
     setView(store, { view }) { store.commit('SET_VIEW', { view }) },
     sortSamples(store, { asc, series }) {

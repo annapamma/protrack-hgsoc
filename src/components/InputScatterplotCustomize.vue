@@ -1,5 +1,14 @@
 <template>
   <div class="input-scatterplot-customize">
+    <v-slider
+      hint="Im a hint"
+      max="80"
+      min="40"
+      label="Plot width"
+      @end="setScatterplotWidth"
+      v-model="scatterplotWidthInput"
+    ></v-slider>
+
     <v-select
       :items="categories"
       label="Category to color markers"
@@ -8,6 +17,7 @@
       v-model="scatterplotCategory"
       solo
     ></v-select>
+
     <v-expansion-panels focusable>
       <v-expansion-panel>
         <v-expansion-panel-header>
@@ -26,6 +36,7 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
   </div>
 </template>
 
@@ -44,17 +55,33 @@ export default {
         get() { return this.$store.state.scatterplotTracksShown },
         set(scatterplotTracksShown) { this.$store.dispatch('setScatterplotTracksShown', { scatterplotTracksShown })},
       },
+      // scatterplotWidth: {
+      //   get() { return this.$store.state.scatterplotWidth / 10 },
+      //   set(scatterplotWidth) { 
+      //     // console.log('setting? ', scatterplotWidth)
+      //     this.$store.dispatch('setScatterplotWidth', { scatterplotWidth: scatterplotWidth * 10 })},
+      // },
       tracks() { return Object.keys(this.$store.state.scatterplotTracks) },
     },
     
     data: () => ({
+      scatterplotWidthInput: null,
     }),
 
     watch: {
       tracks() { this.scatterplotTracksShown = this.tracks },
     },
 
-    mounted() { this.scatterplotTracksShown = this.tracks },
+    methods: {
+      setScatterplotWidth() { 
+        console.log('setting!! ', this.scatterplotWidthInput)
+        this.$store.dispatch('setScatterplotWidth', { scatterplotWidth: this.scatterplotWidthInput * 10 })}
+    },
+
+    mounted() { 
+      this.scatterplotTracksShown = this.tracks 
+      this.scatterplotWidthInput = this.$store.state.scatterplotWidth / 10
+    },
 
 
 }

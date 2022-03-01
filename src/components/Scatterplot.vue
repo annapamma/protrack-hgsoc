@@ -22,6 +22,7 @@ export default {
         scatterplotCategory() { return this.$store.state.scatterplotCategory },
         scatterplotGenes() { return this.$store.state.scatterplotGenes },
         scatterplotTracks() { return this.$store.state.scatterplotTracks },
+        scatterplotWidth() { return this.$store.state.scatterplotWidth },
         sampleMeta() { return this.$store.state.sampleMeta },
         trackDetails() { return this.$store.state.trackDetails },
     },
@@ -30,6 +31,7 @@ export default {
       scatterplotCategory() { this.generateScatterplot() },
       scatterplotGenes() { this.generateScatterplot() },
       scatterplotTracks() { this.generateScatterplot() },
+      scatterplotWidth() { this.generateScatterplot() },
       sampleMeta() { this.generateScatterplot() },
       track() { this.generateScatterplot() },
     },
@@ -43,6 +45,7 @@ export default {
           sampleMeta: this.sampleMeta,
           category: this.scatterplotCategory,
           trackDetails: this.trackDetails,
+          width: this.scatterplotWidth,
         })
       },
     },
