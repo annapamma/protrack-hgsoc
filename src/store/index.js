@@ -40,6 +40,12 @@ export default new Vuex.Store({
     boxplotGenes: null,
     boxplotDataType: 'proteo',
     boxplotDataTypes: ['proteo', 'RNA', 'phospho', 'cnv'],
+    boxplotDataTypeYAxisLabels: {
+      'proteo': 'log scale protein abundance', 
+      'RNA': 'log scale standardized by readcount', 
+      'phospho': 'phosphoprotein abundnace', 
+      'cnv': 'cnv abundance',
+    },
     boxplotView: 'byGene',
     Boxplot_k_gene_v_tracks: null,
     Boxplot_k_track_v_data: null,

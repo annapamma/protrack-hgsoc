@@ -22,6 +22,7 @@ export default {
         boxplotGenes() { return this.$store.state.boxplotGenes },
         boxplotCategory() { return this.$store.state.boxplotCategory },
         boxplotCategory2() { return this.$store.state.boxplotCategory2 },
+        boxplotDataTypeYAxisLabels() { return this.$store.state.boxplotDataTypeYAxisLabels },
         divId() { return `${this.track.split(' ').join('-')}-${this.view}` },
         k_gene_v_tracks() { return this.$store.state[`${this.view}_k_gene_v_tracks`] },
         k_track_v_data() { return this.$store.state[`${this.view}_k_track_v_data`] },
@@ -43,12 +44,13 @@ export default {
         generateBoxplot() { 
             boxplot({
                 associationResults: this.associationResults,
+                divId: this.divId,
                 k_track_v_data: this.k_track_v_data,
+                responseCategory: this.boxplotCategory2,
                 sampleMeta: this.sampleMeta,
                 track: this.track,
                 xAxisCategory: this.boxplotCategory,
-                responseCategory: this.boxplotCategory2,
-                divId: this.divId,
+                yAxisLabels: this.boxplotDataTypeYAxisLabels,
             })
         }
     },

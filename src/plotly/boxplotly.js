@@ -2,12 +2,13 @@ import trackDetails from "../refs/trackDetails"
 
 export default function generateBoxplot({
     associationResults,
-    k_track_v_data,
     divId,
+    k_track_v_data,
     responseCategory,
     sampleMeta,
-    xAxisCategory,
     track,
+    xAxisCategory,
+    yAxisLabels,
 }) {
     if (!k_track_v_data) { return }
     
@@ -125,15 +126,17 @@ export default function generateBoxplot({
         }
     }
 
+    const yAxisLabel = yAxisLabels[track.split(' ')[1]]
+
     const layout = {
-      title: track.includes('RNA') ? `${track} Log2 CPM` : track,
+      title: track,
       annotations: annotations,
       xaxis: {
         automargin: true,
         title,
       },
       yaxis: {
-        title: '',
+        title: yAxisLabel,
       },
       legend: {
         title: 'test?'
