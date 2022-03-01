@@ -38,7 +38,7 @@ export default function scatterplot({
           type: 'scatter',
           marker: { 
             size: 8,
-            color: o.color,
+            color: o.color.toLowerCase() === '#ffffff' ? '#ebebeb' : o.color,
           },
           name: o.label.length > 0 ? o.label : 'Missing value',
         }
