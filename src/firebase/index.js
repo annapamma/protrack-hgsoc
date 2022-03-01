@@ -59,7 +59,6 @@ export const getScatterPlotTracks = async(a, b) => {
     if (process.env.NODE_ENV === 'development') {
       apiRoot = 'http://127.0.0.1:5000';
     }
-    console.log('scatterplot? ', apiRoot)
     return await axios.get(
         `${apiRoot}/api/table/${a}/${b}`
       ).then(
@@ -93,24 +92,11 @@ export const getiProFunRegression = async(predictor, gene) => {
   const ref = firebase.database().ref(path)
   const series = await ref.once('value')
       .then((snapshot) => {
-          console.log('iprofun??? ', snapshot)
           return snapshot.val()
       })
 
   return series
 }
-
-// export const getAssociationResults = (gene) => {
-//   console.log('getting? ', gene)
-//   return {
-//     1: 0.035,
-//     2: 0.481,
-//     3: 0.950,
-//     4: 0.102,
-//     5: 0.077,
-//   }
-// }
-
 
 export const getAssociationResults = async (gene) => {
   if (gene.length === 0) {
@@ -123,7 +109,6 @@ export const getAssociationResults = async (gene) => {
       .then((snapshot) => {
           return snapshot.val()
       })
-  console.log('series? ', series)
   return [gene, series]
 }
 // export const getAssociationResults = async(gene) => {

@@ -1,6 +1,16 @@
 <template>
   <div class="input-boxplot">
-    <v-autocomplete
+    <v-textarea
+      name="input-7-1"
+      outlined
+      clearable
+      @click:clear="clearInput"
+      no-resize
+      v-model="boxplotGeneInput"
+      :label="`Input newline separated genes (max ${maxGenes})`"
+      :hint="notFound.length > 0 ? `Not found: ${notFound.join(', ')}` : ''"
+    ></v-textarea>
+    <!-- <v-autocomplete
         v-model="boxplotGenes"
         :items="genes"
         outlined
@@ -13,7 +23,7 @@
         multiple
         clearable
     >
-    </v-autocomplete>
+    </v-autocomplete> -->
 
     <v-btn
         v-if="boxplotGenes.length > 0"
@@ -39,23 +49,37 @@ export default {
 
     computed: {
         available() { return this.$store.state.available },
+        boxplotGenes() { 
+          return this.boxplotGeneInput
+            .split('\n')
+            .map(gene => gene.toUpperCase())
+            .filter(gene => gene.length > 0 && this.genes.includes(gene) )
+        },
         loaderBoxplot() { return this.$store.state.loaderBoxplot },
         genes() { 
             const available = Object.keys(this.available)
             available.sort()
             return available
         },
+        notFound() {
+          return this.boxplotGeneInput
+            .split('\n')
+            .map(gene => gene.toUpperCase())
+            .filter(gene => gene.length > 0 && !this.genes.includes(gene) )
+        },
         valid() { return this.boxplotGenes.length <= this.maxGenes && this.boxplotGenes.length > 0 },
     },
     
     data: () => ({
-        boxplotGenes: ['A1BG'],
+        boxplotGeneInput: 'A1BG',
         loading: false,
         maxGenes: 10,
     }),
 
 
     methods: {
+        clearInput() { this.boxplotGeneInput = '' },
+
         submitBoxplotGenes() {
             this.$store.dispatch('submitBoxplotGenes', 
             { 

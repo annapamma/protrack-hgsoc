@@ -61,14 +61,14 @@ export default {
 
     methods: {
       clearInput() { this.heatmapGeneInput = '' },
-        submitHeatmapGenes() {
-            this.$store.dispatch('submitHeatmapGenes', 
-            { 
-              view: 'Heatmap', 
-              heatmapGenes: this.heatmapGenes 
-            }
-          )
-        },
+      submitHeatmapGenes() {
+          this.$store.dispatch('submitHeatmapGenes', 
+          { 
+            view: 'Heatmap', 
+            heatmapGenes: this.heatmapGenes 
+          }
+        )
+      },
     },
 
     mounted() { 

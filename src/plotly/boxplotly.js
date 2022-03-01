@@ -124,7 +124,7 @@ export default function generateBoxplot({
 
         }
     }
-    console.log('annotations: ', annotations)
+
     const layout = {
       title: track.includes('RNA') ? `${track} Log2 CPM` : track,
       annotations: annotations,

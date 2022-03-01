@@ -80,7 +80,6 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_BOXPLOT_ASSOCIATION_RESULTS(state, { associationResults }) { 
-      console.log('in mut?')
       state.associationResults = associationResults },
     SET_BARPLOT_CATEGORY(state, { barplotCategory }) { state.barplotCategory = barplotCategory },
     SET_BOXPLOT_DATA_TYPE(state, { boxplotDataType }) { state.boxplotDataType = boxplotDataType },
@@ -138,7 +137,6 @@ export default new Vuex.Store({
     },
     async fetchIprofunRegression(store, { predictor, gene }) {
       const resp = await getiProFunRegression(predictor, gene)
-      console.log('iprofun results? ', resp)
 
       store.commit('SET_IPROFUN_REGRESSION', { predictor, resp })
     },

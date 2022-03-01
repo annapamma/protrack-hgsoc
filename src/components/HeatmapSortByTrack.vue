@@ -142,9 +142,6 @@ export default {
             const res = this.lockTracks.filter(el => el !== track) 
             this.lockTracks = res
         },
-        openLockTrackHelpModal() {
-            console.log('opening')
-        },
         addTrack() { 
             this.lockTracks.push(this.selectTrack) 
         },
