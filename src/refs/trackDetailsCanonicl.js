@@ -37,4 +37,9 @@ export default {
       { value: 6005, label: "PRO", color: "#5a17b7", show: true },
       { value: null, label: "", color: "#ffffff", show: true },
   ],
+  chr17LOH: [
+    { value: 7002, label: "0", color: "#bebebe", show: true },
+    { value: 7003, label: "1", color: "#03254c", show: true },
+    { value: null, label: "", color: "#ffffff", show: true },
+  ],
 };
