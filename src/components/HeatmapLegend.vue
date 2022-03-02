@@ -56,20 +56,8 @@ export default {
       let col1 = col1Keys.map(col => [col, this.trackDetails[col]])
       let col2 = col2Keys.map(col => [col, this.trackDetails[col]])
 
-      // let col1 = []
-      // let col2 = []
-      // Object.entries(this.trackDetails).forEach((track, i) => {
-      //   if (i % 2 === 0) {
-      //     col1.push(track)
-      //   } else {
-      //     col2.push(track)
-      //   }
-      // })
-      console.log('col1? ', col1)
       this.col1 = Object.fromEntries(col1)
       this.col2 = Object.fromEntries(col2)
-      // this.col1 = col1
-      // this.col2 = col2
     }
 }
 </script>

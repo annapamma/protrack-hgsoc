@@ -1,7 +1,12 @@
 <template>
     <div class="iprofun-container">
       <div class="iprofun-header">
-        <h2>{{ IprofunGene }}</h2>
+        <h2>{{ IprofunGene }} iProFun Results</h2>
+        <div class="iprofun-header-span">
+          As part of this study, we have characterized the 
+          functional consequences of DNA-level alterations in HGSOC tumors, 
+          based on platinum response.
+        </div>
       </div>
       <iprofun-table-container :predictor="'Mutation'"/>
       <iprofun-table-container :predictor="'CNV'"/>
@@ -39,14 +44,27 @@ export default {
         height: 100vh;
     }
 
+    .iprofun-header {
+      flex-direction: column;
+      justify-content: center;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .iprofun-header-span {
+      font-size: 1em;
+      width: 70%;
+      margin: 0 auto;
+      text-align: center;
+    }
 
     .iprofun-header h2 {
       margin: 0 auto;
       display: flex;
       font-weight: bold;
       font-size: 1.75em;
-      flex-direction: row;
       justify-content: center;
+      flex-direction: row;
       background: lightgray;
     }
 

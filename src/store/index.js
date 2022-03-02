@@ -81,9 +81,9 @@ export default new Vuex.Store({
     showText: true,
     trackDetails,
     trackDetails_k_label_v_value,
-    // view: 'Iprofun',
-    view: 'Heatmap',
-    views: ['Boxplot', 'Heatmap', 'Iprofun', 'Sample dashboard', 'Scatterplot',],
+    view: 'Cis-regulation effects',
+    // view: 'Heatmap',
+    views: ['Boxplot', 'Cis-regulation effects', 'Heatmap', 'Sample dashboard', 'Scatterplot',],
   },
   mutations: {
     SET_BOXPLOT_ASSOCIATION_RESULTS(state, { associationResults }) { 

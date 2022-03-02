@@ -3,14 +3,25 @@
         <table class="iprofun-table-table">
             <!-- main header -->
             <tr> 
-                <th colspan=1>{{ iprofunGene }}</th>
-                <th :colspan="stats.length" v-for="header in headers" :key="header">{{ header }}</th>
+                <th colspan=1></th>
+                <th :colspan="stats.length" v-for="header in headers"  
+                    :style="`background: ${responseColors[header]};`" 
+                    :key="header">
+                    {{ header }} {{ header === 'Interaction' ? '' : 'tumors' }}
+                </th>
             </tr>
             <!-- space for stats headers  -->
             <tr>
                 <td></td>
                 <template v-for="header in headers">
-                    <td v-for="stat in stats" :key="`${stat}-${header}`">
+                    <td 
+                        v-for="stat in stats" 
+                        :key="`${stat}-${header}`"
+                        :class="{
+                            isBold: isCisRegulation({ label: statDetails[stat].label }),
+                            isYellow: isCisRegulation({ label: statDetails[stat].label }),
+                        }"
+                    >
                         <div  class="stat-header">
                         <v-tooltip 
                             content-class='custom-tooltip'
@@ -32,18 +43,29 @@
                             <span>{{ statDetails[stat].description }}</span>
                         </v-tooltip>
                         <br>
+                        <div>
                         {{ statDetails[stat].label }}
+                        </div>
                     </div>
                     </td>
                 </template>
             </tr>
             <!-- dataType rows -->
             <tr v-for="dataType in dataTypes" :key="dataType">
-                <td>{{ dataType }}</td>
+                <td style="text-align: center;">Association between <b><br>{{ IprofunGene }} {{ dataType }} {{ suffix[dataType] }}</b> and <b><br>{{ predictor }}</b>?</td>
                 <template v-for="header in headers">
-                    <td v-for="stat in stats" :key="`${stat}-${header}-${dataType}`">{{ 
-                        foundStat(header, dataType, stat)
-                    }}</td>
+                    <td 
+                        v-for="stat in stats" 
+                        :key="`${stat}-${header}-${dataType}`" 
+                        :class="{
+                                isBold: isCisRegulation({ label: statDetails[stat].label }),
+                                isGreen: IprofunFound({ found: foundStat(header, dataType, stat) }),
+                        }"
+                    >
+                        {{ 
+                            foundStat(header, dataType, stat)
+                        }}
+                    </td>
                 </template>
             </tr>
         </table>
@@ -61,23 +83,39 @@
                     EST: {
                         label: 'EST',
                         description: 'estimate of the regression coefficients',
+                        show: true,
                     },
                     P: {
                         label: 'Pval',
                         description: 'P-value of the regression coefficients',
+                        show: true,
                     },
                     FWER: {
                         label: 'FWER',
                         description: 'Family-wise error rate',
+                        show: false,
                     },
                     FDR: {
                         label: 'FDR',
-                        description: 'False-discovery rate'
+                        description: 'False-discovery rate',
+                        show: false,
                     },
                     iProFun_identified: {
-                        label: 'cis-regulation (iProFun)',
+                        label: 'cis-regulation found',
                         description: 'Whether an association is identified in multi-omic integrative iProFun analysis.',
+                        show: true,
                     }
+                },
+                suffix: {
+                    RNA: 'expression',
+                    Protein: 'abundance',
+                    Phospho: 'abundance',
+                },
+                responseColors: {
+                    'Refractory': 'rgba(12, 123, 220, 0.5)',
+                    'Sensitive': 'rgba(255, 194, 10, 0.5)',
+                    'Interaction': '#CBC3E3',
+
                 },
                 translate: {
                     iProFun_identified: {
@@ -103,7 +141,7 @@
             },
             stats() {
                 const availableOrder = [
-                    'EST', 'P', 'FWER', 'iProFun_identified'
+                    'iProFun_identified',  'P', 'EST',
                 ]
                 return availableOrder.map((stat) => {
                     if (Object.keys(this.iprofunRegression[this.headers[0]][this.dataTypes[0]]).includes(stat)) {
@@ -111,14 +149,20 @@
                     }
                 })
             },
-            iprofunGene() {
-                return this.$store.state.iprofunGene
+            IprofunGene() {
+                return this.$store.state.IprofunGene
             },
             iprofunRegression() {
                 return this.$store.state.iprofunRegression[this.predictor]
             },
         },
         methods: {
+            isCisRegulation({ label }) { 
+                return label && label.includes('cis-regulation') 
+            },
+            IprofunFound({ found }) {
+                return found === 'Yes'
+            },
             foundStat(h, dt, s) {
                 const statExists = this.iprofunRegression &&
                         this.iprofunRegression[h] &&
@@ -132,7 +176,7 @@
 
 <style scoped>
 .iprofun-table {
-    width: 70%;
+    width: 100%;
     margin: 10px;
 }
 /* Style for cells with any colspan attribute */
@@ -141,7 +185,7 @@ td[colspan] {
 }
 
 .iprofun-table-table {
-    width: 70%;
+    width: 100%;
 }
 /* No extra space between cells */
 table {
@@ -154,6 +198,7 @@ th, td {
   margin: 0;
   padding: 3px 10px;
   text-align: left;
+  text-align: center;
 }
 
 .stat-header {
@@ -164,5 +209,17 @@ th, td {
 .custom-tooltip {
     opacity: 1!important;
     width: 200px!important;
+}
+
+.isBold {
+    font-weight: bold;
+}
+
+.isGreen {
+    background: #e5f6df;
+}
+
+.isYellow {
+    background: #ffffe9;
 }
 </style>
