@@ -36,7 +36,7 @@
     <div class="lock-tracks-switch">
         <v-switch
         v-model="heatmapLockTracks"
-        label='Lock tracks'
+        label='Lock tracks when sorting columns'
         >
         </v-switch>
         <heatmap-lock-tracks-annotation />
@@ -63,17 +63,15 @@
                 </div>
             </div>
         </draggable>
-          <v-select
+            <v-autocomplete
             v-model="selectTrack"
             :items="heatmapTracks.filter(track => !lockTracks.includes(track))"
             xSmall
-            menu-props="auto"
             label="Add track to lock by"
             hide-details
             prepend-icon="mdi-plus"
-            single-line
             append-icon=""
-          ></v-select>
+          ></v-autocomplete>
     </div>
   </div>
 </template>

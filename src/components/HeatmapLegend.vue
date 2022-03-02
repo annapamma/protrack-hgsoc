@@ -9,6 +9,7 @@
               :key="track"
               :trackData="trackData"
               :track="track"
+              :width="80"
           />
         </v-col>
         <v-col md="6">
@@ -17,6 +18,7 @@
               :key="track"
               :trackData="trackData"
               :track="track"
+              :width="50"
           />
         </v-col>
       </v-row> 
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+import trackDetails from '../refs/trackDetails'
 import HeatmapLegendElement from './HeatmapLegendElement.vue'
 
 export default {
@@ -41,17 +44,32 @@ export default {
     }),
 
     mounted() {
-      let col1 = []
-      let col2 = []
-      Object.entries(this.trackDetails).forEach((track, i) => {
-        if (i % 2 === 0) {
-          col1.push(track)
-        } else {
-          col2.push(track)
-        }
-      })
+      let col1Keys = [
+        'Tumor response',
+        'Protein cluster',
+      ]
+      let col2Keys = [
+        'chr17LOH',
+        'Tumor Location Group',
+        'TCGA-RNA clusters (VerHaak)',
+      ]
+      let col1 = col1Keys.map(col => [col, this.trackDetails[col]])
+      let col2 = col2Keys.map(col => [col, this.trackDetails[col]])
+
+      // let col1 = []
+      // let col2 = []
+      // Object.entries(this.trackDetails).forEach((track, i) => {
+      //   if (i % 2 === 0) {
+      //     col1.push(track)
+      //   } else {
+      //     col2.push(track)
+      //   }
+      // })
+      console.log('col1? ', col1)
       this.col1 = Object.fromEntries(col1)
       this.col2 = Object.fromEntries(col2)
+      // this.col1 = col1
+      // this.col2 = col2
     }
 }
 </script>

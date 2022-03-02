@@ -16,15 +16,9 @@ export default {
       { value: 3002, label: "3.0", color: "#4e7eaf", show: true },
     ],
     "Tumor Location Group": [
-      { value: 4002, label: "GI", color: "#7e39c2", show: true },
-      { value: 4003, label: "GIOM", color: "#61812e", show: true },
-      { value: 4004, label: "LN", color: "#0ec61c", show: true },
-      { value: 4005, label: "Mix", color: "#dd8eeb", show: true },
-      { value: 4006, label: "OM", color: "#41bbc5", show: true },
-      { value: 4007, label: "OV", color: "#7a2c39", show: true },
-      { value: 4008, label: "PT", color: "#dd3450", show: true },
-      { value: 4009, label: "UT", color: "#8bc876", show: true },
-      { value: null, label: "", color: "#ffffff", show: true },
+      { value: 4001, label: "OM", color: "#5D88F8", show: true },
+      { value: 4002, label: "OV", color: "#EE8871", show: true },
+      { value: 4003, label: "other", color: "#72FFF6", show: true },
     ],
     "Tumor response": [
       { value: 5001, label: "refractory", color: "#0C7BDC", show: true },

@@ -1,8 +1,11 @@
 <template>
-  <div class="heatmap-legend-element" style="display: flex; flex-direction: column;">
+  <div class="heatmap-legend-element">
       <div>{{ track }}</div>
       <v-btn-toggle multiple v-model="shownFeatures">
-        <div style="display: flex; flex-direction: column;">
+        <div 
+            class="heatmap-legend-element-buttons" 
+            :style="`width: ${width}%;`"
+        >
             <v-btn
                 v-for="el in trackData"
                 :key="el.value"
@@ -12,6 +15,7 @@
                 elevation="0"
                 :plain="!el.value"
                 :color="getBackgroundColor(el)"
+
             >
                 <span style="">
                     {{ getButtonLabel(el) }}
@@ -26,7 +30,7 @@
 export default {
     name: "heatmap-legend-element",
 
-    props: ['track', 'trackData'],
+    props: ['track', 'trackData', 'width'],
 
     data: () => ({
         shownFeatures: [],
@@ -35,7 +39,7 @@ export default {
 
     methods: {
         getButtonLabel(el) {
-            if (el.label.length === 0) { return 'Missing value' }
+            if (el.label.length === 0) { return 'Missing' }
             
             // if (el.label.includes('.')) { return el.label.split('.')[0] }
             
@@ -81,6 +85,13 @@ export default {
     width: 100%;
     margin-top: 10px;
     min-width: 120px;
+    display: flex; 
+    flex-direction: column;
+}
+
+.heatmap-legend-element-buttons {
+    display: flex; 
+    flex-direction: column;
 }
 
 .heatmap-legend-element .v-btn {
