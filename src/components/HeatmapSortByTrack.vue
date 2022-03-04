@@ -1,6 +1,5 @@
 <template>
   <div class="sort-by-track">
-      {{ selectTrack }}
       <div v-for="[k, v] in selectedData" :key="k">
           <b>{{k}}</b>: {{ v }}
       </div>

@@ -51,8 +51,8 @@ export default {
 
       predictorLabels: {
         Mutation: 'Mutation',
-        CNV: 'CNV-Dosage',
-        LOH: 'CNV-LOH',
+        CNV: 'CNV',
+        LOH: 'LOH',
       },
       predictorLabelsDescription: {
         Mutation: 'Somatic mutation derived from WGS (whole genome sequencing) data. Categorized to binary variable (Yes/No) for the existence of any types of mutation in the gene.',

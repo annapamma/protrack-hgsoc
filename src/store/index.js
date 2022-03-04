@@ -54,6 +54,7 @@ export default new Vuex.Store({
     heatmapGenes: null,
     heatmapLockTracks: true,
     heatmapShownDataTypes: ['RNA', 'proteo', 'phospho', 'CNV', 'LOH'],
+    heatmapTab: 'tab-1',
     heatmapTracksToLock: ['Tumor response'],
     Heatmap_k_gene_v_tracks: null,
     Heatmap_k_track_v_data: null,
@@ -102,6 +103,7 @@ export default new Vuex.Store({
       state[`${view}_k_track_v_data`] = k_track_v_data
     },
     SET_HEATMAP_GENES(state, { heatmapGenes }) { state.heatmapGenes = heatmapGenes },
+    SET_HEATMAP_TAB(state, { heatmapTab }) { state.heatmapTab = heatmapTab },
     SET_HEATMAP_LOCK_TRACKS(state, { heatmapLockTracks }) { state.heatmapLockTracks = heatmapLockTracks },
     SET_HEATMAP_SHOWN_DATA_TYPES(state, { heatmapShownDataTypes }) { state.heatmapShownDataTypes  = heatmapShownDataTypes },
     SET_HEATMAP_TRACKS_TO_LOCK(state, { heatmapTracksToLock }) { state.heatmapTracksToLock = heatmapTracksToLock },
@@ -193,6 +195,7 @@ export default new Vuex.Store({
     setBoxplotDataType(store, { boxplotDataType }) { store.commit('SET_BOXPLOT_DATA_TYPE', { boxplotDataType }) },
     setBoxplotView(store, { boxplotView }) { store.commit('SET_BOXPLOT_VIEW', { boxplotView }) },
     setHeatmapLockTracks(store, { heatmapLockTracks }) { store.commit('SET_HEATMAP_LOCK_TRACKS', { heatmapLockTracks }) },
+    setHeatmapTab(store, { heatmapTab }) { store.commit('SET_HEATMAP_TAB', { heatmapTab }) },
     setHeatmapTracksToLock(store, { heatmapTracksToLock }) { store.commit('SET_HEATMAP_TRACKS_TO_LOCK', { heatmapTracksToLock }) },
     setHeatmapShownDataTypes(store, { heatmapShownDataTypes }) { store.commit('SET_HEATMAP_SHOWN_DATA_TYPES', { heatmapShownDataTypes }) },
     setScatterplotCategory(store, { scatterplotCategory }) { store.commit('SET_SCATTERPLOT_CATEGORY', { scatterplotCategory })},

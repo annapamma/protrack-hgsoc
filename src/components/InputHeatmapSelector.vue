@@ -16,7 +16,7 @@
         :disabled="loading || !valid"
         color="blue-grey"
         class="ma-2 white--text"
-        @click="submitHeatmapGenes"
+        @click="submitAndMove"
       >
         {{ valid ? 'Render heatmap' : 'Select fewer genes' }}
     </v-btn>
@@ -68,6 +68,10 @@ export default {
             heatmapGenes: this.heatmapGenes 
           }
         )
+      },
+      submitAndMove() {
+        this.submitHeatmapGenes()
+        this.$store.dispatch('setHeatmapTab', { heatmapTab: 'tab-2' } )
       },
     },
 
