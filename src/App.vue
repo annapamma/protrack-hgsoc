@@ -42,7 +42,7 @@ export default {
     showBoxplot() { return this.view === 'Boxplot' ? "" : "display: none;" },
     showDemo() { return this.view === 'Demo' ? "" : "display: none;" },
     showHeatmap() { return this.view === 'Heatmap' ? "" : "display: none;" },
-    showIprofun() { return this.view === 'Iprofun' ? "" : "display: none;" },
+    showIprofun() { return this.view === 'Cis-regulation effects' ? "" : "display: none;" },
     showSampleDashboard() { return this.view === 'Sample dashboard' ? "" : "display: none;" },
     showScatterplot() { return this.view === 'Scatterplot' ? "" : "display: none;" },
   },

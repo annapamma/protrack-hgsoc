@@ -76,7 +76,7 @@ export default function generateHeatmap(
       if (track) {
           track.z.splice(0,0,[])
           track.y.splice(0,0,'')
-          track.xgap = 0.2
+          track.xgap = 0.1
       }
     })
 
