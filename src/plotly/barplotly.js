@@ -81,7 +81,9 @@ export default function generateBarplot(
         width: 400,
         barmode: 'stack', 
         title: {
-            text: track,
+            text: track.toLowerCase().includes('verhaak') ? 
+            `<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/">${track}</a>`
+             : track,
             xref: 'x',
             x: 0.5,
             yref: 'paper',

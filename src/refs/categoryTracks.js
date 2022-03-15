@@ -1,10 +1,1 @@
-export default {
-  Ungrouped: [
-    "Tumor response",
-    "Protein cluster",
-    "chr17LOH",
-    "Tumor Grade",
-    "Tumor Location Group",
-    "TCGA-RNA clusters (VerHaak)",
-  ],
-};
+export default {"Ungrouped": ["Protein cluster", "Tumor Grade", "Tumor Location Group", "Tumor response", "TCGA-RNA clusters (VerHaak)", "chr17LOH"]}
