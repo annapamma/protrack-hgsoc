@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import firebase from 'firebase/app'
 import { initializeApp } from 'firebase/database'
+import sampleScatterplot from './sampleScatterplot'
 
 const env = process.env
 const cohort = env.VUE_APP_COHORT
@@ -57,7 +58,8 @@ export const getClinicalTracks = async() => {
 export const getScatterPlotTracks = async(a, b) => {
     let apiRoot = ''
     if (process.env.NODE_ENV === 'development') {
-      apiRoot = 'http://127.0.0.1:5000';
+      // apiRoot = 'https://127.0.0.1:5000';
+      return sampleScatterplot
     }
     return await axios.get(
         `${apiRoot}/api/table/${a}/${b}`

@@ -69,17 +69,22 @@ export default {
     }),
 
     watch: {
-      tracks() { this.scatterplotTracksShown = this.tracks },
+      tracks() { 
+        const proteoProteoTracks = this.tracks.map(el => el.split(' - ')).filter(a => a.every(a_el => a_el.includes('proteo')))
+        this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
+
+      },
     },
 
     methods: {
       setScatterplotWidth() { 
-        console.log('setting!! ', this.scatterplotWidthInput)
         this.$store.dispatch('setScatterplotWidth', { scatterplotWidth: this.scatterplotWidthInput * 10 })}
     },
 
     mounted() { 
-      this.scatterplotTracksShown = this.tracks 
+      const proteoProteoTracks = this.tracks.map(el => el.split(' - ')).filter(a => a.every(a_el => a_el.includes('proteo')))
+      console.log('mounting')
+      this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
       this.scatterplotWidthInput = this.$store.state.scatterplotWidth / 10
     },
 
