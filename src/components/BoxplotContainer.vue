@@ -26,6 +26,8 @@ export default {
         k_gene_v_tracks() { return this.$store.state[`${this.view}_k_gene_v_tracks`] },
         k_dataType_v_tracks() { 
           if (!this.k_gene_v_tracks) { return null }
+
+
           let dataTypes = Object.fromEntries(this.boxplotDataTypes.map(dt => [dt, []]))
           Object.keys(dataTypes).forEach((dataType) => {
             Object.entries(this.k_gene_v_tracks).forEach(([, tracks]) => {
@@ -40,16 +42,18 @@ export default {
         },
         tracks() { 
           if (!this.k_gene_v_tracks) { return [] }
-
-          if (this.boxplotView === 'byGene') {
-              return this.k_gene_v_tracks[this.boxplotGene]
+          if (this.boxplotDataType === 'All') {
+            return Object.values(this.k_dataType_v_tracks).flat()
           }
+          // if (this.boxplotView === 'byGene') {
+          //     return this.k_gene_v_tracks[this.boxplotGene]
+          // }
 
-          if (this.boxplotView === 'byDataType') {
+          // if (this.boxplotView === 'byDataType') {
             return this.k_dataType_v_tracks[this.boxplotDataType]
-          }
+          // }
 
-          return []
+          // return []
         },
     },
 }
