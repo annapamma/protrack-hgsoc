@@ -24,13 +24,13 @@
     </v-btn>
 
     <div class="iprofun-description-1">
-
-      <p>iProFun is an integrative analysis tool to screen for Proteogenomic Functional traits perturbed by DNA-level alterations. </p>
-      The goal is to characterize functional consequences of DNA-level alterations in tumors and to facilitate screening for cancer drivers contributing to tumor initiation and progression.
+      The goal of iProFun is to identify associations between DNA-level alterations and protein and RNA expression levels.
       </div>
     <div class="iprofun-description-2">
             <p>A linear additive regression was considered for each outcome (mRNA/protein/phoshpo) with DNA-level alterations (mutation/CNV-dosage/CNV-LOH), tumor response (Sensitive vs Refractory) and their interactive effects as primary predictors, adjusting for covariates (e.g. age, tumor location, tumor purity, RNA quality for mRNA).</p>
       iProFun analysis was performed using regression summaries.
+            <p>iProFun is an integrative analysis tool to screen for Proteogenomic Functional traits perturbed by DNA-level alterations. </p>
+
     </div>
 
     <div class="iprofun-description-3">
@@ -86,14 +86,16 @@ export default {
 }
 
 .iprofun-description-1 {
-  background: #E0F2F1;
+  background: #FFFDE7;
+  font-weight: bold;
+  text-align: center;
   padding: 20px;
   margin: 10px;
   font-size: 0.85em;
 }
 
 .iprofun-description-2 {
-  background: #FFFDE7;
+  background: #ECEFF1;
   padding: 20px;
   margin: 10px;
   font-size: 0.85em;
