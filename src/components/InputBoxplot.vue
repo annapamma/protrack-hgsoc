@@ -71,7 +71,7 @@ export default {
     },
     
     data: () => ({
-        boxplotGeneInput: 'A1BG',
+        boxplotGeneInput: 'G6PD\nH6PD\nPGD\nPKM\nTIGAR',
         loading: false,
         maxGenes: 10,
     }),
@@ -90,7 +90,10 @@ export default {
         },
     },
 
-    mounted() { this.submitBoxplotGenes() }
+    mounted() { 
+      this.boxplotGeneInput = 
+      this.submitBoxplotGenes() 
+    }
 }
 </script>
 
