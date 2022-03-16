@@ -82,8 +82,8 @@ export default new Vuex.Store({
     showText: true,
     trackDetails,
     trackDetails_k_label_v_value,
-    // view: 'Cis-regulation effects',
-    view: 'Boxplot',
+    view: 'Cis-regulation effects',
+    // view: 'Boxplot',
     views: ['Boxplot', 'Cis-regulation effects', 'Heatmap', 'Sample dashboard', 'Scatterplot',],
   },
   mutations: {

@@ -1,30 +1,33 @@
 <template>
-    <div class="iprofun-table">
+    <div class="iprofun-table-details">
         <table class="iprofun-table-table">
             <!-- main header -->
             <tr> 
-                <th colspan=1></th>
-                <th v-for="header in headers"  
-                    :style="`background: ${responseColors[header]};`" 
+                <th colspan=1 rowspan=2>P-value details</th>
+                <th :colspan="stats.length" v-for="header in headers"  
+                    :style="`background: ${responseColors[header]}; `" 
+                    :class="{
+                        isBordered: true,
+                    }"
                     :key="header">
                     {{ header }} {{ header === 'Interaction' ? '' : 'tumors' }}
                 </th>
             </tr>
+            <!-- space for stats headers  -->
             <tr>
-                <td 
-                    style="text-align: center;"
-                     :class="{
-                        isBold: true,
-                        isYellow: true,
-                    }"
-                >
-                    <div class="stat-header">
-                        <div>
-                            cis-regulation found
-                        </div>
+                <template v-for="header in headers">
+                    <td 
+                        v-for="stat in stats" 
+                        :key="`${stat}-${header}`"
+                        :class="{
+                            isBordered: stat === 'P',
+                        }"
+                    >
+                        <div  class="stat-header">
                         <v-tooltip 
                             content-class='custom-tooltip'
                             bottom 
+                            v-if="header === 'Refractory'"
                             color="error"
                         >
                             <template v-slot:activator="{ on, attrs }">
@@ -38,32 +41,44 @@
                                 mdi-help-circle
                                 </v-icon>
                             </template>
-                            <span>{{ statDetails.iProFun_identified.description }}</span>
+                            <span>{{ statDetails[stat].description }}</span>
                         </v-tooltip>
+                        <br>
+                        <div>
+                        {{ statDetails[stat].label }}
+                        </div>
                     </div>
-                </td>
-                <td                 
-                    v-for="header in headers"
-                    :key="header"
-                    :class="{
-                        isBold: true,
-                        isGreen: cisregulationFound(iprofunRegression[header]),
-                    }"
-                >
-                {{ cisregulationFound(iprofunRegression[header]) ? 'Yes' : 'No' }} -- {{ cisregulationGroup(iprofunRegression[header]) }}
-                </td>
-                </tr>
+                    </td>
+                </template>
+            </tr>
+            <!-- dataType rows -->
+            <tr v-for="dataType in dataTypes" :key="dataType" >
+                <td style="text-align: center;">Association between <b><br>{{ IprofunGene }} {{ dataType }} {{ suffix[dataType] }}</b> and <b><br>{{ predictor }}</b>?</td>
+                <template v-for="header in headers">
+                    <td 
+                        v-for="stat in stats" 
+                        :key="`${stat}-${header}-${dataType}`" 
+                        :class="{
+                                isBold: isCisRegulation({ label: statDetails[stat].label }),
+                                isGreen: IprofunFound({ found: foundStat(header, dataType, stat) }),
+                                isBordered: stat === 'P',
+                        }"
+                    >
+                        {{ 
+                            foundStat(header, dataType, stat)
+                        }}
+                    </td>
+                </template>
+            </tr>
         </table>
-        <iprofun-table-details :predictor="predictor" />
     </div>
 </template>
 
 <script>
-import IprofunTableDetails from './IprofunTableDetails.vue'
+
     export default {
         props: ['predictor'],
         components: {
-                IprofunTableDetails
         },
         data() {
             return {
@@ -100,8 +115,8 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
                     Phospho: 'abundance',
                 },
                 responseColors: {
-                    'Refractory': 'rgba(12, 123, 220, 0.5)',
-                    'Sensitive': 'rgba(255, 194, 10, 0.5)',
+                    'Refractory': 'rgba(12, 123, 220, 0.2)',
+                    'Sensitive': 'rgba(255, 194, 10, 0.2)',
                     'Interaction': '#CBC3E3',
 
                 },
@@ -113,7 +128,7 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
                 }
             }
         },
-        name: "iprofun-table",
+        name: "iprofun-table-details",
         computed: {
             headers() {
                 const availableOrder = [
@@ -129,7 +144,7 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
             },
             stats() {
                 const availableOrder = [
-                    'iProFun_identified',  'P', 'EST',
+                    'P', 'EST',
                 ]
                 return availableOrder.map((stat) => {
                     if (Object.keys(this.iprofunRegression[this.headers[0]][this.dataTypes[0]]).includes(stat)) {
@@ -151,12 +166,6 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
             IprofunFound({ found }) {
                 return found === 'Yes'
             },
-            cisregulationFound(regressionGroup) {
-                return Object.values(regressionGroup).map(el => el.iProFun_identified).every(el => el === 1)
-            },
-            cisregulationGroup(regressionGroup) {
-                return Object.entries(regressionGroup).map(([dt, el]) => [dt, el.iProFun_identified])
-            },
             foundStat(h, dt, s) {
                 const statExists = this.iprofunRegression &&
                         this.iprofunRegression[h] &&
@@ -169,9 +178,9 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
 </script>
 
 <style scoped>
-.iprofun-table {
+.iprofun-table-details {
     width: 100%;
-    margin: 10px;
+    margin-top: 20px;
 }
 /* Style for cells with any colspan attribute */
 td[colspan] {
@@ -182,13 +191,14 @@ td[colspan] {
     width: 100%;
 }
 /* No extra space between cells */
-/* table {
-overflow-x:scroll;
+table {
+    overflow-x:scroll;
   border-collapse: collapse;
-} */
+
+}
 
 th, td {
-  border: 1px solid gray;
+  border: 1px solid #bebebe;
   margin: 0;
   padding: 3px 10px;
   text-align: left;
@@ -215,5 +225,9 @@ th, td {
 
 .isYellow {
     background: #ffffe9;
+}
+
+.isBordered {
+    /* border: solid 1px #000000 !important; */
 }
 </style>
