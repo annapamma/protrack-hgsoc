@@ -1,5 +1,6 @@
 <template>
   <div class="input-heatmap-selector">
+    <div style="height: 0; display: none;">{{ heatmapGeneInput }}</div>
     <v-textarea
       name="input-7-1"
       outlined
@@ -18,7 +19,11 @@
         class="ma-2 white--text"
         @click="submitAndMove"
       >
-        {{ valid ? 'Render heatmap' : 'Select fewer genes' }}
+        {{ valid ? 'Render heatmap' : 
+          heatmapGenes.length > 10 ?
+            'Select fewer genes' :
+            'Enter genes'  
+        }}
     </v-btn>
   </div>
 </template>
@@ -52,8 +57,7 @@ export default {
     },
     
     data: () => ({
-      heatmapGeneInput: 'A1BG\n' +
-            'A2M\n',
+      heatmapGeneInput: 'A1BG\nA2M',
       maxGenes: 10,
       loading: false,
     }),

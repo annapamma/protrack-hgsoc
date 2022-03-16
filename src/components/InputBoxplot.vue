@@ -26,7 +26,7 @@
     </v-autocomplete> -->
 
     <v-btn
-        v-if="boxplotGenes.length > 0"
+        v-if="boxplotGeneInput.length > 0"
         :loading="loaderBoxplot"
         :disabled="loading || !valid"
         color="blue-grey"
