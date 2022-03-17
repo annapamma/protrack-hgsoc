@@ -4,10 +4,11 @@
 
       <v-expansion-panel>
         <v-expansion-panel-header>
-          Sort by track
+          Reorder samples
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <heatmap-sort-by-track />
+          <!-- <heatmap-sort-by-track /> -->
+          <heatmap-sorter />
         </v-expansion-panel-content>
       </v-expansion-panel>
 
@@ -25,12 +26,14 @@
 </template>
 
 <script>
-import HeatmapSortByTrack from './HeatmapSortByTrack.vue'
+// import HeatmapSortByTrack from './HeatmapSortByTrack.vue'
+import HeatmapSorter from './HeatmapSorter.vue'
 // import HeatmapDataTypeSelector from './HeatmapDataTypeSelector.vue'
 
 export default {
     components: { 
-      HeatmapSortByTrack,
+      HeatmapSorter,
+      // HeatmapSortByTrack,
       // HeatmapDataTypeSelector,
     },
     
@@ -44,6 +47,15 @@ export default {
     }),
 
     methods: {
+    },
+
+    mounted() {
+          this.$store.dispatch('submitHeatmapGenes', 
+          { 
+            view: 'Heatmap', 
+            heatmapGenes: ['A1BG', 'A2M'],
+          }
+        )
     },
 }
 </script>

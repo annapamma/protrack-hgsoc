@@ -6,7 +6,9 @@
           v-model="view"
           label="View"
           dense
-        ></v-select>
+          @mouseover.native="showTooltip"
+        >
+        </v-select>
     </div>
 </template>
 
@@ -23,6 +25,11 @@ export default {
         views() {
             return this.$store.state.views
         },
+    },
+    methods: {
+        showTooltip() {
+            console.log('yep showing!')
+        }
     },
 
 }
