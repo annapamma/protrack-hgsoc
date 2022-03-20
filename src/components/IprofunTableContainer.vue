@@ -1,10 +1,11 @@
 <template>
     <div class="iprofun-table-container">
       <v-expansion-panels focusable v-model="panel" multiple>
+        {{ IprofunGene }}
         <v-expansion-panel>
           <v-expansion-panel-header>
               <div>
-                <b style="margin-right: 3px;">{{ predictorLabels[predictor] }}</b>
+                <b style="margin-right: 3px;">{{ predictorLabels(predictor) }}</b>
                 <v-tooltip 
                   content-class='custom-tooltip'
                   bottom 
@@ -30,8 +31,10 @@
                 <iprofun-table v-if="iprofunRegression[predictor]" :predictor="predictor"/>
                 <div v-else style="margin-left: 10px;">{{ predictor }} data not found</div>
 
-                <div class="iprofun" v-for="(isGenerated, iprofunFigure) in iprofunFigureGenerated" :key="iprofunFigure">
-                    <img width="450" v-if="isGenerated && iprofunFigure.toUpperCase().indexOf(predictor.toUpperCase()) > -1" :src="`https://calina01.u.hpc.mssm.edu/protrack/${iprofunFigure}/${IprofunGene}`" />
+                <div class="iprofun">
+                    <img v-if="predictor === 'Mutation'" height="325" :src="`https://calina01.u.hpc.mssm.edu/protrack/mutation/${IprofunGene}`" onerror="this.style.display='none'"/>
+                    <img v-if="predictor === 'CNV' || predictor === 'LOH'" height="325" :src="`https://calina01.u.hpc.mssm.edu/protrack/cnv/${IprofunGene}`" />
+                    <img v-if="predictor === 'CNV' || predictor === 'LOH'"  height="325" :src="`https://calina01.u.hpc.mssm.edu/protrack/cnv_boxplot/${IprofunGene}`" />
                 </div>
               </div>
           </v-expansion-panel-content>
@@ -48,17 +51,15 @@ export default {
   data() {
     return {
       panel: [0, 1, 2], 
-
-      predictorLabels: {
-        Mutation: 'Mutation',
-        CNV: 'CNV',
-        LOH: 'LOH',
-      },
       predictorLabelsDescription: {
         Mutation: 'Somatic mutation derived from WGS (whole genome sequencing) data. Categorized to binary variable (Yes/No) for the existence of any types of mutation in the gene.',
         CNV: 'Somatic copy number variation, dosage value (total number of copies). The value is centered at 2 copies and log2 transformed. ',
         LOH: 'Somatic copy number variation, loss of heterozygosity (the proportion of minor allele). The range is (0, 0.5). ',
-      }
+      },
+      // predictorFigure: {
+      //   Mutation: 'mutation',
+      //   CNV: 'cnv_boxplot', 
+      // },
     }
   },
   components: {  
@@ -76,6 +77,18 @@ export default {
       return this.$store.state.IprofunFigureGenerated
     },
   },
+  methods: {
+        predictorLabels(predictor) {
+      const labelOpts = {
+        Mutation: `Mutation: Associations between ${this.IprofunGene} mutation and protein and RNA expression levels`,
+        CNV: `CNV: Associations between ${this.IprofunGene} copy number variation and protein and RNA expression levels`,
+        LOH: `LOH: Associations between ${this.IprofunGene} loss of heterozygosity and protein and RNA expression levels`,
+        // CNV: 'CNV',
+        // LOH: 'LOH',
+      }
+      return labelOpts[predictor]
+    },
+  }
 }
 </script>
 

@@ -47,7 +47,7 @@ export default {
     showScatterplot() { return this.view === 'Scatterplot' ? "" : "display: none;" },
   },
 
-  mounted() { this.$store.dispatch('sortSamples', { lockTracks: this.$store.state.lockTracks }) }
+  mounted() { this.$store.dispatch('sortSamples', { lockTracks: ['Tumor response'] }) }
 };
 </script>
 

@@ -182,10 +182,10 @@ td[colspan] {
     width: 100%;
 }
 /* No extra space between cells */
-/* table {
+table {
 overflow-x:scroll;
   border-collapse: collapse;
-} */
+}
 
 th, td {
   border: 1px solid gray;

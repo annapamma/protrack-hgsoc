@@ -1,6 +1,7 @@
 <template>
   <div class="heatmap-legend">
     <div style="text-align: center; font-weight: bold;">Interactive Legend</div>
+    <div style="text-align: center;">Click buttons to hide/show samples.</div>
     <v-container>
       <v-row no-gutters>
         <v-col md="6">

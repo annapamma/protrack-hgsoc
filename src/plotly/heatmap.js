@@ -85,6 +85,8 @@ export default function generateHeatmap(
     const config = { 
         repsonsive: true,
         displaylogo: false,
+        annotations: [
+        ],
     }
 
     Plotly.newPlot('plotly-heatmap', data, layout, config);
