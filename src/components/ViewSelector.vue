@@ -6,8 +6,28 @@
           v-model="view"
           label="View"
           dense
-          @mouseover.native="showTooltip"
         >
+            <template v-slot:item="data">
+                {{ data.item }}
+                <v-tooltip v-if="data.item.includes('Cis-regulation')" right color="#3F51B5">
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                        color="#546E7A"
+                        v-bind="attrs"
+                        v-on="on"
+                        class="ml-2"
+                        small
+                    >
+                        mdi-help-circle
+                    </v-icon>
+                    </template>
+                    <div>
+                        Identify associations between<br>
+                        DNA-level alterations<br> 
+                        and protein and RNA expression levels.
+                    </div>
+                </v-tooltip>
+            </template>
         </v-select>
     </div>
 </template>
@@ -23,7 +43,9 @@ export default {
             set(view) { this.$store.dispatch('setView', { view }) },
         },
         views() {
-            return this.$store.state.views
+            const views = this.$store.state.views
+            // return views.map(view => { return {'name': view} })
+            return views
         },
     },
     methods: {
