@@ -1,6 +1,10 @@
 <template>
   <div class="heatmap-legend-element">
-      <div>{{ track }}</div>
+      <div v-if="track.includes('VerHaak')"><a 
+        href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2818769/"
+        target="_blank"
+      >{{track}}</a></div>
+      <div v-else>{{ track }}</div>
       <v-btn-toggle multiple v-model="shownFeatures">
         <div 
             class="heatmap-legend-element-buttons" 
