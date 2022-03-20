@@ -109,7 +109,6 @@ export default {
             let lockTracks = [...this.lockTracks]
             lockTracks.push('Search tracks')
             this.lockTracks = lockTracks
-            this.changed = true
         },
         // lockIdx(i) { return this.lockTracks.length > 1 ? i + 1 : '' },
         // sortBySeries({ asc }) {

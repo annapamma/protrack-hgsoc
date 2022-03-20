@@ -204,7 +204,6 @@ export default new Vuex.Store({
     setShowText(store, { showText }) { store.commit('SET_SHOW_TEXT', { showText }) },
     setView(store, { view }) { store.commit('SET_VIEW', { view }) },
     sortSamples(store, { lockTracks }) {
-      console.log('sorting samples?', lockTracks)
       if (!lockTracks) { return }
       let tracks = deepClone(lockTracks)
       tracks.reverse()
@@ -224,7 +223,6 @@ export default new Vuex.Store({
               asc: true,
             }).filter(s => store.state.sampleOrder.includes(s))   
         } else {
-          console.log('in ', category, sampleOrder)
           sampleOrder.forEach(sample => {
               const label = store.state.sampleMeta[sample][category]
               const categoryVal = store.state.trackDetails_k_label_v_value[category][label]
@@ -234,7 +232,6 @@ export default new Vuex.Store({
           sampleOrder.sort(function(a,b){return k_sample_v_categoryVal[a]-k_sample_v_categoryVal[b]})
         }
       })
-      console.log('sampleOrder? ', sampleOrder)
       
       // let data = {}
       // if (series in store.state.trackDetails) {
