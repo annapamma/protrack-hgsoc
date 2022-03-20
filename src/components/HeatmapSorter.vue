@@ -1,6 +1,5 @@
 <template>
   <div class="heatmap-sorter">
-      {{ lockTracks }}
         <p>Samples are ordered by:</p>
         <heatmap-sorter-level v-for="(track, i) in lockTracks" 
             :key="track" 
@@ -36,7 +35,7 @@
                 class="mt-4 mx-2"
                 color="primary"
                 :disabled="lockTracks.length === 0 || !changed"
-                @click="sortTracks"
+                @click="sortSamples"
             >
                 <span v-if="lockTracks.length > 0">Apply changes</span>
                 <span v-else>Select at least 1<br> axis to order</span>
@@ -135,8 +134,10 @@ export default {
             this.lockTracks = lockTracks
             this.changed = true
         },
-        sortTracks() {
-            console.log('sort')
+        sortSamples() {
+            this.$store.dispatch('sortSamples', {
+                lockTracks: this.lockTracks
+            })
         },
     },
 
