@@ -13,8 +13,19 @@ export default function generateBoxplot({
     if (!k_track_v_data) { return }
     
     const Plotly = window.Plotly
+    const trackArr = track.split(' ')
+    const gene = trackArr[0]
+    const dataType = trackArr[1]
+    const remainder = trackArr.slice(1,).join(' ')
 
-    const gene = track.split(' ')[0]
+    const trackTitle = `${gene} ${dataType} ${remainder}`
+    const dataTypeTranslate = {
+      'proteo': 'protein abundance',
+      'RNA': 'RNA expression',
+      'phospho': 'phosphosite abundance',
+      'cnv': 'CN'
+    }
+
     const pVals = associationResults[gene]
     let category = xAxisCategory
     
@@ -129,7 +140,7 @@ export default function generateBoxplot({
     const yAxisLabel = yAxisLabels[track.split(' ')[1]]
 
     const layout = {
-      title: track,
+      title: trackTitle,
       annotations: annotations,
       xaxis: {
         automargin: true,
@@ -139,7 +150,6 @@ export default function generateBoxplot({
         title: yAxisLabel,
       },
       legend: {
-        title: 'test?'
       },
       boxmode: category !== responseCategory ? 'group' : 'box',
     }

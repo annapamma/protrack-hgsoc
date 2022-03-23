@@ -24,13 +24,38 @@
     </v-btn>
 
     <div class="iprofun-description-1">
-      The goal of iProFun is to identify associations between DNA-level alterations and protein and RNA expression levels.
+      The goal of this analysis is to identify associations between DNA-level alterations and protein/RNA/phosphosite expression levels.
       </div>
     <div class="iprofun-description-2">
-            <p>A linear additive regression was considered for each outcome (mRNA/protein/phoshpo) with DNA-level alterations (mutation/CNV-dosage/CNV-LOH), tumor response (Sensitive vs Refractory) and their interactive effects as primary predictors, adjusting for covariates (e.g. age, tumor location, tumor purity, RNA quality for mRNA).</p>
-      iProFun analysis was performed using regression summaries.
-            <p>iProFun is an integrative analysis tool to screen for Proteogenomic Functional traits perturbed by DNA-level alterations. </p>
+      <p>We leveraged iProFun, an integrative analysis tool to screen for proteogenomic functional traits perturbed by DNA-level alterations. </p>
+      <p>iProFun analysis was performed using regression summaries. A linear additive regression was considered for each outcome (mRNA/protein/phoshpo) with DNA-level alterations (mutation/CNV-dosage/CNV-LOH), tumor response (Sensitive vs Refractory) and their interactive effects as primary predictors, adjusting for covariates (e.g. age, tumor location, tumor purity, RNA quality for mRNA).</p>
+    </div>
 
+    <div class="iprofun-description-criteria">
+      <p><b>Criteria for determining cis-regulation</b></p>
+      <ul>
+        <li v-for="criterion in criteria" :key="criterion.label">
+          {{ criterion.label }}
+            <v-tooltip 
+              content-class='custom-tooltip'
+              right 
+              color="error"
+          >
+              <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  small
+                  >
+                  mdi-help-circle
+                  </v-icon>
+              </template>
+              <span>{{ criterion.description }}</span>
+          </v-tooltip>
+        </li>
+      </ul>
     </div>
 
     <div class="iprofun-description-3">
@@ -60,6 +85,20 @@ export default {
     
     data: () => ({
       IprofunGene: 'CPT1A',
+      criteria: [
+        {
+          label: 'FDR <= 0.1',
+          description: '',
+        },
+        {
+          label: 'Posterior probability > 0.75',
+          description: '',
+        },
+        {
+          label: 'Same direction across RNA/protein/phosphosite expressions',
+          description: ''
+        },
+      ],
     }),
 
 
@@ -101,10 +140,25 @@ export default {
   font-size: 0.85em;
 }
 
+.iprofun-description-criteria {
+  background: #ffffff;
+  border: solid 1px black;
+  padding: 20px;
+  margin: 10px;
+  font-size: 0.85em;
+}
+
+
 .iprofun-description-3 {
   background: #ECEFF1;
   padding: 20px;
   margin: 10px;
   font-size: 0.85em;
 }
+
+/* ul li:before {
+  content: "\2713\0020";
+}
+
+ul { list-style-type: none; } */
 </style>

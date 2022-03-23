@@ -24,7 +24,8 @@
                     <div>
                         Identify associations between<br>
                         DNA-level alterations<br> 
-                        and protein and RNA expression levels.
+                        and protein/RNA/phosphoprotein <br> 
+                        expression levels.
                     </div>
                 </v-tooltip>
             </template>

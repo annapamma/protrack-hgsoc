@@ -26,7 +26,7 @@
     </v-autocomplete> -->
 
     <v-btn
-        v-if="boxplotGeneInput.length > 0"
+        v-if="boxplotGeneInput && boxplotGeneInput.length > 0"
         :loading="loaderBoxplot"
         :disabled="loading || !valid"
         color="blue-grey"
@@ -50,6 +50,9 @@ export default {
     computed: {
         available() { return this.$store.state.available },
         boxplotGenes() { 
+          if (!this.boxplotGeneInput) {
+            return []
+          }
           return this.boxplotGeneInput
             .split('\n')
             .map(gene => gene.toUpperCase())
@@ -62,6 +65,9 @@ export default {
             return available
         },
         notFound() {
+          if (!this.boxplotGeneInput) {
+            return []
+          }
           return this.boxplotGeneInput
             .split('\n')
             .map(gene => gene.toUpperCase())

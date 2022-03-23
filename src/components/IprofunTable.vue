@@ -10,17 +10,22 @@
                     {{ header }} {{ header === 'Interaction' ? '' : 'tumors' }}
                 </th>
             </tr>
-            <tr>
+            <tr
+                v-for="dataType in dataTypes"
+                :key="dataType"
+            >
                 <td 
                     style="text-align: center;"
                      :class="{
-                        isBold: true,
+                        isBold: false,
                         isYellow: true,
                     }"
                 >
                     <div class="stat-header">
-                        <div>
-                            cis-regulation found
+                        <div style="margin: 0 auto;">
+                            cis-regulation found between<br>
+                            <b>{{ IprofunGene }} {{ dataTypeTranslate[dataType] }} {{ suffix[dataType] }}</b><br>
+                            and <b>{{ predictor }}</b>
                         </div>
                         <v-tooltip 
                             content-class='custom-tooltip'
@@ -47,29 +52,29 @@
                     :key="header"
                     :class="{
                         isBold: true,
-                        isGreen: cisregulationFound(iprofunRegression[header]),
+                        isGreen: cisregulationFound(iprofunRegression[header][dataType].iProFun_identified),
                     }"
                 >
-                {{ cisregulationFound(iprofunRegression[header]) ? 'Yes' : 'No' }} -- {{ cisregulationGroup(iprofunRegression[header]) }}
+                {{ cisregulationFound(iprofunRegression[header][dataType].iProFun_identified) ? 'Yes' : 'No' }}
                 </td>
                 </tr>
         </table>
-        <iprofun-table-details :predictor="predictor" />
+        <!-- <iprofun-table-details :predictor="predictor" /> -->
     </div>
 </template>
 
 <script>
-import IprofunTableDetails from './IprofunTableDetails.vue'
+// import IprofunTableDetails from './IprofunTableDetails.vue'
     export default {
         props: ['predictor'],
         components: {
-                IprofunTableDetails
+                // IprofunTableDetails
         },
         data() {
             return {
                 statDetails: {
                     EST: {
-                        label: 'Co-efficient',
+                        label: 'Coefficient',
                         description: 'estimate of the regression coefficients',
                         show: true,
                     },
@@ -94,6 +99,11 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
                         show: true,
                     }
                 },
+                dataTypeTranslate: {
+                    'RNA': 'RNA',
+                    'Protein': 'protein',
+                    'Phospho': 'phosphosite',
+                },
                 suffix: {
                     RNA: 'expression',
                     Protein: 'abundance',
@@ -103,7 +113,6 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
                     'Refractory': 'rgba(12, 123, 220, 0.5)',
                     'Sensitive': 'rgba(255, 194, 10, 0.5)',
                     'Interaction': '#CBC3E3',
-
                 },
                 translate: {
                     iProFun_identified: {
@@ -122,9 +131,11 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
                 return availableOrder.filter(header =>  Object.keys(this.iprofunRegression).includes(header) )
             },
             dataTypes() {
+                if (!this.iprofunRegression) { return [] }
                 const availableOrder = [
                     'RNA', 'Protein', 'Phospho'
                 ]
+
                 return availableOrder.filter(dataType =>  Object.keys(this.iprofunRegression[this.headers[0]]).includes(dataType) )
             },
             stats() {
@@ -151,8 +162,9 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
             IprofunFound({ found }) {
                 return found === 'Yes'
             },
-            cisregulationFound(regressionGroup) {
-                return Object.values(regressionGroup).map(el => el.iProFun_identified).every(el => el === 1)
+            cisregulationFound(v) {
+                return v === 1
+                // return Object.values(regressionGroup).map(el => el.iProFun_identified).every(el => el === 1)
             },
             cisregulationGroup(regressionGroup) {
                 return Object.entries(regressionGroup).map(([dt, el]) => [dt, el.iProFun_identified])
@@ -171,7 +183,6 @@ import IprofunTableDetails from './IprofunTableDetails.vue'
 <style scoped>
 .iprofun-table {
     width: 100%;
-    margin: 10px;
 }
 /* Style for cells with any colspan attribute */
 td[colspan] {

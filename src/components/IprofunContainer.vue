@@ -1,7 +1,7 @@
 <template>
     <div class="iprofun-container">
       <div class="iprofun-header">
-        <h2>{{ IprofunGene }} iProFun Results</h2>
+        <h2>{{ IprofunGene }} Association Results</h2>
         <!-- <div class="iprofun-header-span">
           As part of this study, we have characterized the 
           functional consequences of DNA-level alterations in HGSOC tumors, 

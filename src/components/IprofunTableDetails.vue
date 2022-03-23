@@ -1,76 +1,88 @@
 <template>
     <div class="iprofun-table-details">
-        <table class="iprofun-table-table">
-            <!-- main header -->
-            <tr> 
-                <th colspan=1 rowspan=2>P-value details</th>
-                <th :colspan="stats.length" v-for="header in headers"  
-                    :style="`background: ${responseColors[header]}; `" 
-                    :class="{
-                        isBordered: true,
-                    }"
-                    :key="header">
-                    {{ header }} {{ header === 'Interaction' ? '' : 'tumors' }}
-                </th>
-            </tr>
-            <!-- space for stats headers  -->
-            <tr>
-                <template v-for="header in headers">
-                    <td 
-                        v-for="stat in stats" 
-                        :key="`${stat}-${header}`"
-                        :class="{
-                            isBordered: stat === 'P',
-                        }"
-                    >
-                        <div  class="stat-header">
-                        <v-tooltip 
-                            content-class='custom-tooltip'
-                            bottom 
-                            v-if="header === 'Refractory'"
-                            color="error"
-                        >
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-icon
-                                color="primary"
-                                dark
-                                v-bind="attrs"
-                                v-on="on"
-                                small
+        <v-expansion-panels>
+            <v-expansion-panel>
+                <v-expansion-panel-header>
+                Expand to see associated p-values for each data type and tumor group
+                </v-expansion-panel-header>
+
+                <v-expansion-panel-content>
+                    <table class="iprofun-table-table">
+                        <!-- main header -->
+                        <tr> 
+                            <th colspan=1 rowspan=2>P-value details</th>
+                            <th :colspan="stats.length" v-for="header in headers"  
+                                :style="`background: ${responseColors[header]}; `" 
+                                :class="{
+                                    isBordered: true,
+                                }"
+                                :key="header">
+                                {{ header }} {{ header === 'Interaction' ? '' : 'tumors' }}
+                            </th>
+                        </tr>
+                        <!-- space for stats headers  -->
+                        <tr>
+                            <template v-for="header in headers">
+                                <td 
+                                    v-for="stat in stats" 
+                                    :key="`${stat}-${header}`"
+                                    :class="{
+                                        isBordered: stat === 'P',
+                                    }"
                                 >
-                                mdi-help-circle
-                                </v-icon>
+                                    <div  class="stat-header">
+                                    <v-tooltip 
+                                        content-class='custom-tooltip'
+                                        bottom 
+                                        v-if="header === 'Refractory'"
+                                        color="error"
+                                    >
+                                        <template v-slot:activator="{ on, attrs }">
+                                            <v-icon
+                                            color="primary"
+                                            dark
+                                            v-bind="attrs"
+                                            v-on="on"
+                                            small
+                                            >
+                                            mdi-help-circle
+                                            </v-icon>
+                                        </template>
+                                        <span>{{ statDetails[stat].description }}</span>
+                                    </v-tooltip>
+                                    <br>
+                                    <div>
+                                    {{ statDetails[stat].label }}
+                                    </div>
+                                </div>
+                                </td>
                             </template>
-                            <span>{{ statDetails[stat].description }}</span>
-                        </v-tooltip>
-                        <br>
-                        <div>
-                        {{ statDetails[stat].label }}
-                        </div>
-                    </div>
-                    </td>
-                </template>
-            </tr>
-            <!-- dataType rows -->
-            <tr v-for="dataType in dataTypes" :key="dataType" >
-                <td style="text-align: center;">Association between <b><br>{{ IprofunGene }} {{ dataType }} {{ suffix[dataType] }}</b> and <b><br>{{ predictor }}</b>?</td>
-                <template v-for="header in headers">
-                    <td 
-                        v-for="stat in stats" 
-                        :key="`${stat}-${header}-${dataType}`" 
-                        :class="{
-                                isBold: isCisRegulation({ label: statDetails[stat].label }),
-                                isGreen: IprofunFound({ found: foundStat(header, dataType, stat) }),
-                                isBordered: stat === 'P',
-                        }"
-                    >
-                        {{ 
-                            foundStat(header, dataType, stat)
-                        }}
-                    </td>
-                </template>
-            </tr>
-        </table>
+                        </tr>
+                        <!-- dataType rows -->
+                        <tr v-for="dataType in dataTypes" :key="dataType" >
+                            <td style="text-align: center;">Association between <b><br>{{ IprofunGene }} {{ dataType }} {{ suffix[dataType] }}</b> and <b><br>{{ predictor }}</b></td>
+                            <template v-for="header in headers">
+                                <td 
+                                    v-for="stat in stats" 
+                                    :key="`${stat}-${header}-${dataType}`" 
+                                    :class="{
+                                            isBold: isCisRegulation({ label: statDetails[stat].label }),
+                                            isGreen: IprofunFound({ found: foundStat(header, dataType, stat) }),
+                                            isBordered: stat === 'P',
+                                    }"
+                                >
+                                    {{ 
+                                        foundStat(header, dataType, stat)
+                                    }}
+                                </td>
+                            </template>
+                        </tr>
+                    </table>
+
+                </v-expansion-panel-content>
+
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
 </template>
 
@@ -84,7 +96,7 @@
             return {
                 statDetails: {
                     EST: {
-                        label: 'Co-efficient',
+                        label: 'Coefficient',
                         description: 'estimate of the regression coefficients',
                         show: true,
                     },
@@ -120,6 +132,12 @@
                     'Interaction': '#CBC3E3',
 
                 },
+                dataTypeTranslate: {
+                    'RNA': 'RNA',
+                    'Protein': 'protein',
+                    'Phospho': 'phosphosite',
+                },
+
                 translate: {
                     iProFun_identified: {
                         0: 'No',
@@ -131,18 +149,23 @@
         name: "iprofun-table-details",
         computed: {
             headers() {
+                if (!this.iprofunRegression) { return [] }
                 const availableOrder = [
                     'Refractory', 'Sensitive', 'Interaction'
                 ]
+                
                 return availableOrder.filter(header =>  Object.keys(this.iprofunRegression).includes(header) )
             },
             dataTypes() {
+                if (!this.iprofunRegression) { return [] }
                 const availableOrder = [
                     'RNA', 'Protein', 'Phospho'
                 ]
+
                 return availableOrder.filter(dataType =>  Object.keys(this.iprofunRegression[this.headers[0]]).includes(dataType) )
             },
             stats() {
+                if (!this.iprofunRegression) { return [] }
                 const availableOrder = [
                     'P', 'EST',
                 ]
@@ -182,6 +205,7 @@
     width: 100%;
     margin-top: 20px;
 }
+
 /* Style for cells with any colspan attribute */
 td[colspan] {
   text-align: center;
@@ -189,6 +213,7 @@ td[colspan] {
 
 .iprofun-table-table {
     width: 100%;
+    margin-top: 10px;
 }
 /* No extra space between cells */
 table {
