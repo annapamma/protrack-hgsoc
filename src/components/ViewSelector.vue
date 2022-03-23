@@ -51,7 +51,6 @@ export default {
     },
     methods: {
         showTooltip() {
-            console.log('yep showing!')
         }
     },
 

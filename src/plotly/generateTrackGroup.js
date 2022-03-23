@@ -121,10 +121,23 @@ export default function generateTrackGroup({
   //   z.push(mutZ)
   //   finalTrackOrder.push(mutTrackTitle)
   // }
-
+  const dataTypeTranslate = {
+    'proteo': 'protein',
+    'cnv': 'CNV',
+    'phospho': 'phosphosite',
+    'RNA': 'RNA',
+    'mut': 'mutation',
+  }
+  let updatedTrackLabels = finalTrackOrder.map(track => {
+    const trackArr = track.split(' ')
+    const gene = trackArr[0]
+    const dataType = trackArr[1]
+    const remainder = trackArr.slice(2,)
+    return `${gene} ${dataTypeTranslate[dataType]} ${remainder}`
+  })
   return {
       x: [...samples],
-      y: [...finalTrackOrder],
+      y: [...updatedTrackLabels],
       z: [...z],
       type: 'heatmap',
       colorscale,

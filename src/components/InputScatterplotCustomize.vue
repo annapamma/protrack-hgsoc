@@ -18,7 +18,7 @@
       solo
     ></v-select>
 
-    <v-expansion-panels focusable>
+    <v-expansion-panels focusable v-model="panel">
       <v-expansion-panel>
         <v-expansion-panel-header>
           Hide/show graphs
@@ -27,12 +27,20 @@
           <v-switch
             dense
             hide-details
+            :label="selectAll ? 'Hide all' : 'Show all'"
+            v-model="selectAll"
+          >
+          </v-switch>
+          <v-switch
+            dense
+            hide-details
             v-for="track in tracks"
             :key="track"
             :value="track"
             v-model="scatterplotTracksShown"
-            :label="track"
-          ></v-switch>
+            :label="getTrackLabel(track)"
+          >
+          </v-switch>
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -55,20 +63,23 @@ export default {
         get() { return this.$store.state.scatterplotTracksShown },
         set(scatterplotTracksShown) { this.$store.dispatch('setScatterplotTracksShown', { scatterplotTracksShown })},
       },
-      // scatterplotWidth: {
-      //   get() { return this.$store.state.scatterplotWidth / 10 },
-      //   set(scatterplotWidth) { 
-      //     // console.log('setting? ', scatterplotWidth)
-      //     this.$store.dispatch('setScatterplotWidth', { scatterplotWidth: scatterplotWidth * 10 })},
-      // },
       tracks() { return Object.keys(this.$store.state.scatterplotTracks) },
     },
     
     data: () => ({
       scatterplotWidthInput: null,
+      panel: 0,
+      selectAll: false,
     }),
 
     watch: {
+      selectAll() { 
+        if (this.selectAll) {
+          this.scatterplotTracksShown = this.tracks
+        } else {
+          this.scatterplotTracksShown = []
+        }
+      },
       tracks() { 
         const proteoProteoTracks = this.tracks.map(el => el.split(' - ')).filter(a => a.every(a_el => a_el.includes('proteo')))
         this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
@@ -76,13 +87,33 @@ export default {
     },
 
     methods: {
+      getTrackLabel(track) {
+        const trackArr = track.split(' - ')
+        const trackArrA = trackArr[0].split(' ')
+        const trackArrB = trackArr[1].split(' ')
+        const geneA = trackArrA[0]
+        const dataTypeA = trackArrA[1]
+        const remainderA = trackArrA.slice(2,).join(' ')
+
+        const geneB = trackArrB[0]
+        const dataTypeB = trackArrB[1]
+        const remainderB = trackArrB.slice(2,).join(' ')
+
+        const dataTypeTranslate = {
+          'proteo': 'protein',
+          'RNA': 'RNA',
+          'phospho': 'phosphosite',
+          'cnv': 'CNV'
+        }
+        const trackTitle = `${geneA} ${dataTypeTranslate[dataTypeA]} ${remainderA}- ${geneB} ${dataTypeTranslate[dataTypeB]} ${remainderB}`
+        return trackTitle
+      },
       setScatterplotWidth() { 
         this.$store.dispatch('setScatterplotWidth', { scatterplotWidth: this.scatterplotWidthInput * 10 })}
     },
 
     mounted() { 
       const proteoProteoTracks = this.tracks.map(el => el.split(' - ')).filter(a => a.every(a_el => a_el.includes('proteo')))
-      console.log('mounting')
       this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
       this.scatterplotWidthInput = this.$store.state.scatterplotWidth / 10
     },

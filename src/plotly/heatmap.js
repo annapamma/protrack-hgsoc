@@ -20,35 +20,70 @@ export default function generateHeatmap(
     const Plotly = window.Plotly
     let molecular = []
 
-    let categorical = Object.entries(categoryTracks)
-      .map(([, tracks], i) => {
-          return [
-              ...generateCategoricalTrackGroup({
-                  sampleOrder,
-                  sampleMeta,
-                  trackDetails,
-                  tracks,
-              }),
-              fillerObj({
-                  i: i+1,
-                  samples: sampleOrder,
-                  marker: '-'
-              })
-          ]  
+
+    let categorical_a = [
+      ...generateCategoricalTrackGroup({
+          sampleOrder,
+          sampleMeta,
+          trackDetails,
+          tracks: categoryTracks.Ungrouped.slice(0,3),
+      }),
+      fillerObj({
+          i: 1,
+          samples: sampleOrder,
+          marker: '-'
+      })
+  ]  
+  .flat()
+  .reverse()
+  if (k_gene_v_tracks && k_track_v_data) {
+    molecular = Object.entries(k_gene_v_tracks)
+      .map(([gene, trackList], i) => {
+        const filteredTracks = trackList
+            // const filteredTracks = trackList.filter(track => {
+            //     const trackArr = track.split(' ')
+            //     const trackDataType = trackArr[1]
+            //     return shownDataTypes.includes(trackDataType)
+            // }
+          // )
+            return [                
+                fillerObj({
+                        i: i+1,
+                        samples: sampleOrder,
+                        marker: '*'
+                    }),
+                generateTrackGroup({
+                    label: gene,
+                    trackList: [...filteredTracks],
+                    samples: sampleOrder,
+                    i,
+                    k_track_v_data,
+                })
+            ] 
       })
       .flat()
-      .reverse()
+  }
 
+
+  let categorical_b = [
+        ...generateCategoricalTrackGroup({
+            sampleOrder,
+            sampleMeta,
+            trackDetails,
+            tracks: categoryTracks.Ungrouped.slice(3,),
+        }),
+        fillerObj({
+            i: 1,
+            samples: sampleOrder,
+            marker: '-'
+        })
+    ]  
+    .flat()
+    .reverse()
     if (k_gene_v_tracks && k_track_v_data) {
       molecular = Object.entries(k_gene_v_tracks)
         .map(([gene, trackList], i) => {
           const filteredTracks = trackList
-              // const filteredTracks = trackList.filter(track => {
-              //     const trackArr = track.split(' ')
-              //     const trackDataType = trackArr[1]
-              //     return shownDataTypes.includes(trackDataType)
-              // }
-            // )
               return [                
                   fillerObj({
                           i: i+1,
@@ -67,9 +102,17 @@ export default function generateHeatmap(
         .flat()
     }
 
+      const filler =  fillerObj({
+        i: 2,
+        samples: sampleOrder,
+        marker: "'"
+    })
+
     let data = [
       ...molecular,
-      ...categorical,
+      ...categorical_b,
+      filler,
+      ...categorical_a,
     ]
 
     data.forEach((track) => {

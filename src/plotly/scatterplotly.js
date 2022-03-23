@@ -57,7 +57,24 @@ export default function scatterplot({
 
     }
 
-    
+    const trackArr = track.split(' - ')
+    const trackArrA = trackArr[0].split(' ')
+    const trackArrB = trackArr[1].split(' ')
+    const geneA = trackArrA[0]
+    const dataTypeA = trackArrA[1]
+    const remainderA = trackArrA.slice(2,).join(' ')
+
+    const geneB = trackArrB[0]
+    const dataTypeB = trackArrB[1]
+    const remainderB = trackArrB.slice(2,).join(' ')
+
+    const dataTypeTranslate = {
+      'proteo': 'protein abundance',
+      'RNA': 'RNA expression',
+      'phospho': 'phosphosite abundance',
+      'cnv': 'CNV'
+    }
+    const trackTitle = ``
     const layout = {
       xaxis: {
         title: trackData.gene_a,
@@ -70,7 +87,7 @@ export default function scatterplot({
       },
       height: 400,
       width,
-      title: `${track}<br>pearson correlation: ${trackData.correlation}`,
+      title: `${geneA} ${dataTypeTranslate[dataTypeA]} ${remainderA}- ${geneB} ${dataTypeTranslate[dataTypeB]} ${remainderB}<br>pearson correlation: ${trackData.correlation}`,
     }
 
     const config = {

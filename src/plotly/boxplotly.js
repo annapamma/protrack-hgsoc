@@ -16,16 +16,15 @@ export default function generateBoxplot({
     const trackArr = track.split(' ')
     const gene = trackArr[0]
     const dataType = trackArr[1]
-    const remainder = trackArr.slice(1,).join(' ')
-
-    const trackTitle = `${gene} ${dataType} ${remainder}`
+    const remainder = trackArr.slice(2,).join(' ')
     const dataTypeTranslate = {
       'proteo': 'protein abundance',
       'RNA': 'RNA expression',
       'phospho': 'phosphosite abundance',
-      'cnv': 'CN'
+      'cnv': 'CNV'
     }
-
+    const trackTitle = `${gene} ${dataTypeTranslate[dataType]} ${remainder}`
+    
     const pVals = associationResults[gene]
     let category = xAxisCategory
     
