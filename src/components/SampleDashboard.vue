@@ -1,8 +1,8 @@
 <template>
     <div class="sample-dashboard">
-      <div class="sample-dashboard-header">Stratified by: {{ barplotCategory }}</div>
+      <!-- <div class="sample-dashboard-header">Stratified by: {{ barplotCategory }}</div> -->
       <v-container>
-        <v-row no-gutters>
+        <v-row >
           <v-col md="6">
             <barplotly 
               v-for="colTrack in col1"
@@ -52,10 +52,22 @@ import Barplotly from './Barplotly.vue'
     },
 
     mounted() {
-      let colChunks = splitToChunks(
-        [...this.graphs],
-        2
-      )
+      // let colChunks = splitToChunks(
+      //   [...this.graphs],
+      //   2
+      // )
+      const colChunks = [
+    [
+        "Tumor response",
+        "Tumor Location Group",
+        "Tumor Grade",
+    ],
+    [
+        "Protein cluster",
+        "chr17LOH",
+        "TCGA-RNA clusters (VerHaak)",
+    ]
+]
       this.col1 = colChunks[0]
       this.col2 = colChunks[1]
       // this.col3 = colChunks[2]

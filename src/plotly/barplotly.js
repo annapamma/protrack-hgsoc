@@ -86,7 +86,7 @@ export default function generateBarplot(
              : track,
             xref: 'x',
             x: 0.5,
-            yref: 'paper',
+            yref: 'y',
             y: 1,
             font: {
                 size: 15,
@@ -109,10 +109,16 @@ export default function generateBarplot(
             r: 10,
         },
         legend: {
-            title: 'test',
             orientation: "v",
             y: 0.7,
-            x: 1,
+            x: 1.1,
+            title: { 
+                text: xAxisCategory !== yAxisCategory ? xAxisCategory : '', 
+                font: {
+                    size: 12,
+                }
+            },
+
         },
         
         modebar: modebar.barplot,

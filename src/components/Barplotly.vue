@@ -89,7 +89,8 @@
 
 <style scoped>
     .barplotly {
-      border-top: solid 1px #ededed;
+      border-bottom: solid 1px #ededed;
+      margin-bottom: 20px;
       width: 100%;
     }
 </style>
