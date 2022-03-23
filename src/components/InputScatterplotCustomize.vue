@@ -114,7 +114,11 @@ export default {
 
     mounted() { 
       const proteoProteoTracks = this.tracks.map(el => el.split(' - ')).filter(a => a.every(a_el => a_el.includes('proteo')))
-      this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
+      if (proteoProteoTracks.length > 0) {
+        this.scatterplotTracksShown = proteoProteoTracks.map(el => el.join(' - ')) 
+      } else {
+        this.scatterplotTracksShown = this.tracks[0]
+      }
       this.scatterplotWidthInput = this.$store.state.scatterplotWidth / 10
     },
 

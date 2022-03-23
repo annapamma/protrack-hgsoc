@@ -2,7 +2,6 @@ import axios from 'axios'
 
 import firebase from 'firebase/app'
 import { initializeApp } from 'firebase/database'
-import sampleScatterplot from './sampleScatterplot'
 
 const env = process.env
 const cohort = env.VUE_APP_COHORT
@@ -56,11 +55,12 @@ export const getClinicalTracks = async() => {
 }
 
 export const getScatterPlotTracks = async(a, b) => {
-    let apiRoot = ''
-    if (process.env.NODE_ENV === 'development') {
-      // apiRoot = 'https://127.0.0.1:5000';
-      return sampleScatterplot
-    }
+    let apiRoot = 'http://ptrc.cptac-data-view.org/'
+    // if (process.env.NODE_ENV === 'development') {
+    //   // apiRoot = 'https://127.0.0.1:5000';
+    //   return []
+    // }
+    console.log(`${apiRoot}/api/table/${a}/${b}`)
     return await axios.get(
         `${apiRoot}/api/table/${a}/${b}`
       ).then(

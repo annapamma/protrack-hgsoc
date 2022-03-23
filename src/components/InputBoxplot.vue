@@ -51,7 +51,7 @@ export default {
         available() { return this.$store.state.available },
         boxplotGenes() { 
           if (!this.boxplotGeneInput) {
-            return []
+            return "G6PD\nH6PD\nPGD\nPKM\nTIGAR".split('\n')
           }
           return this.boxplotGeneInput
             .split('\n')

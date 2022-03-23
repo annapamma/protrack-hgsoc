@@ -6,7 +6,11 @@
                 dense
                 v-model="updatedTrack"
                 :items="allTracks"
-            ></v-autocomplete>
+            >
+                <template v-slot:item="{ item }">
+                {{ generateText(item) }}
+                </template>
+            </v-autocomplete>
         </div>
 
         <div v-if="!editing">
@@ -57,7 +61,18 @@ export default {
             return [...this.clinicalTracks, ...this.molecularTracks]
         },
         clinicalTracks() { return Object.keys(this.$store.state.trackDetails) },
-        molecularTracks() { return Object.values(this.$store.state.Heatmap_k_gene_v_tracks).flat() } 
+        molecularTracks() { 
+          
+            // const molecularTracks = Object.values(this.$store.state.Heatmap_k_gene_v_tracks).flat().map(el => {
+            //     const trackArr = el.split(' ')
+            //     const gene = trackArr[0]
+            //     const dataType = trackArr[1]
+            //     const remainder = trackArr.slice(2,)
+
+            //     return `${gene} ${dataTypeTranslate[dataType]} ${remainder}`
+            // })
+            return Object.values(this.$store.state.Heatmap_k_gene_v_tracks).flat()
+        } 
     },
 
     data: () => ({
@@ -69,6 +84,22 @@ export default {
     },
 
     methods: {
+        generateText(item) {
+            if (this.clinicalTracks.includes(item)) { return item }
+            const dataTypeTranslate = {
+                'proteo': 'protein',
+                'cnv': 'CNV',
+                'phospho': 'phosphosite',
+                'RNA': 'RNA',
+                'mut': 'mutation',
+            }
+            const trackArr = item.split(' ')
+            const gene = trackArr[0]
+            const dataType = trackArr[1]
+            const remainder = trackArr.slice(2,)
+
+            return `${gene} ${dataTypeTranslate[dataType]} ${remainder}`
+        },
         removeLockTrack() {
             this.editing = false
             this.$emit(
