@@ -24,13 +24,13 @@
           Hide/show graphs
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <v-switch
+          <!-- <v-switch
             dense
             hide-details
             :label="selectAll ? 'Hide all' : 'Show all'"
             v-model="selectAll"
           >
-          </v-switch>
+          </v-switch> -->
           <v-switch
             dense
             hide-details

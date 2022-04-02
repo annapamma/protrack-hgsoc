@@ -232,43 +232,6 @@ export default new Vuex.Store({
           sampleOrder.sort(function(a,b){return k_sample_v_categoryVal[a]-k_sample_v_categoryVal[b]})
         }
       })
-      
-      // let data = {}
-      // if (series in store.state.trackDetails) {
-      //   const labelVal = trackDetails_k_label_v_value[series]
-  
-      //   Object.entries(store.state.sampleMeta)
-      //     .forEach(([sample, meta]) => {
-      //       data[sample] = labelVal[meta[series]]
-      //     })
-      // } else {
-      //   data = deepClone(store.state.Heatmap_k_track_v_data[series])
-      // }
-      
-      // Object.entries(data).forEach(([sample, val]) => {
-      //   if (val === '' || !val) {
-      //     data[sample] = asc ? -Infinity : Infinity
-      //   }
-      // })
-      
-      // let sampleOrder = sortFn({
-      //   data,
-      //   asc
-      // }).filter(s => store.state.sampleOrder.includes(s))
-
-      // if (store.state.heatmapLockTracks) {
-      //   const categories = [...store.state.heatmapTracksToLock]
-      //   categories.forEach(category => {
-      //     const k_sample_v_categoryVal = {}
-      //     store.state.sampleOrder.forEach(sample => {
-      //         const label = store.state.sampleMeta[sample][category]
-      //         const categoryVal = store.state.trackDetails_k_label_v_value[category][label]
-      //         k_sample_v_categoryVal[sample] = categoryVal
-      //       }
-      //     )
-      //     sampleOrder.sort(function(a,b){return k_sample_v_categoryVal[a]-k_sample_v_categoryVal[b]})
-      //   })
-      // }
 
       store.commit('UPDATE_SAMPLES', { sampleOrder })
       store.dispatch('filterSamples')

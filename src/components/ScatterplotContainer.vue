@@ -31,7 +31,16 @@ export default {
 
     watch: {
       scatterplotTracksShown() { this.tracks = this.scatterplotTracksShown }
-    }
+    },
+
+    mounted() {
+           this.$store.dispatch('submitScatterplotGenes', 
+            { 
+              view: 'Scatterplot', 
+              scatterplotGenes: ['A1BG', 'A2M']
+            }
+          )
+    },
 }
 </script>
 

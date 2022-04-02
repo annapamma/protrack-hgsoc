@@ -50,9 +50,6 @@ export default {
     computed: {
         available() { return this.$store.state.available },
         boxplotGenes() { 
-          if (!this.boxplotGeneInput) {
-            return "G6PD\nH6PD\nPGD\nPKM\nTIGAR".split('\n')
-          }
           return this.boxplotGeneInput
             .split('\n')
             .map(gene => gene.toUpperCase())
@@ -97,7 +94,7 @@ export default {
     },
 
     mounted() { 
-      this.boxplotGeneInput = 
+      this.boxplotGeneInput = 'G6PD\nH6PD\nPGD\nPKM\nTIGAR'
       this.submitBoxplotGenes() 
     }
 }

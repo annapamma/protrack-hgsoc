@@ -53,8 +53,8 @@ export default {
     },
     
     data: () => ({
-        scatterplotGeneA: null,
-        scatterplotGeneB: null,
+        scatterplotGeneA: 'A1BG',
+        scatterplotGeneB: 'A2M',
         loading: false,
     }),
 
